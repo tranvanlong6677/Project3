@@ -29,6 +29,9 @@ const Login = () => {
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
         toast.success(response.message);
+        if (access_token && refresh_token) {
+          navigate(routesObj.home);
+        }
       }
       // link đến trang chính khi đăng nhập thành công
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
