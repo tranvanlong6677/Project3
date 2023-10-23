@@ -1,9 +1,10 @@
+import Header from "../components/Header";
 import { ChildrenProps } from "../utils/childrenProps";
 
 const DefaultLayout = ({ children }: ChildrenProps) => {
   return (
     <div className="wrapper">
-      {/* <Header /> */}
+      <Header />
       {/* <div className="drawer-wrapper"></div> */}
       <>{children}</>
     </div>

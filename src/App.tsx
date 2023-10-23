@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { publicRoutes, userRoutes } from "./routes/routes";
 import DefaultLayout from "./layouts/DefaultLayout";

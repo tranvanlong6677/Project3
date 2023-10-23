@@ -10,3 +10,7 @@ export interface RegisterRequestBody {
   name: string;
   date_of_birth: Date;
 }
+
+export interface LogoutRequestBody {
+  refresh_token: string;
+}

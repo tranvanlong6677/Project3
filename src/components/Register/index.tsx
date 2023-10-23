@@ -72,7 +72,7 @@ const Register = () => {
 
         <Row className="w-100 mb-3">
           <Col sm={12} md={10} lg={7} className="mx-auto">
-            <Form.Group className="" controlId="formBasicEmail">
+            <Form.Group className="" controlId="formBasicDateOfBirth">
               <Form.Label>Date of birth</Form.Label>
               <Form.Control
                 style={{ display: "none" }}
