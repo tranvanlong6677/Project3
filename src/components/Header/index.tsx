@@ -23,21 +23,21 @@ const Header = () => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const res: any = await authApi.logout({ refresh_token });
-        console.log(">>> check res", res);
         if (res.message === "Logout successfully") {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
           toast.success(res.message);
           navigate(routesObj.login);
         }
-      } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
         console.log(">>> error", error);
         toast.error(error?.response?.data?.message);
       }
     }
   };
   return (
-    <Navbar expand="lg" variant="dark" bg="dark" className="header-wrapper">
+    <Navbar expand={"md"} variant="dark" bg="dark" className="header-wrapper">
       <Container className="d-flex ">
         <Link
           to={routesObj.home}
@@ -47,13 +47,15 @@ const Header = () => {
           <span className="mx-2">PROJECT 3</span>
         </Link>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Link to={routesObj.home} className="nav-link">
-              Home
-            </Link>
-            <Link to={routesObj.listBookings} className="nav-link">
-              List booking
-            </Link>
+          <Nav className="w-100 d-flex justify-content-between">
+            <div className="d-flex flex-column flex-md-row">
+              <Link to={routesObj.home} className="nav-link">
+                Home
+              </Link>
+              <Link to={routesObj.listBookings} className="nav-link">
+                List booking
+              </Link>
+            </div>
 
             <NavDropdown title="My account" id="basic-nav-dropdown">
               <Link to={routesObj.userInformation} className="dropdown-item">
@@ -69,6 +71,7 @@ const Header = () => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
       </Container>
     </Navbar>
   );
