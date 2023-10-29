@@ -25,7 +25,6 @@ const Register = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const response: any = await authApi.register(dataClone);
-      console.log("response", response);
       await toast.success(response.message);
       await navigate(routesObj.login);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -111,6 +110,18 @@ const Register = () => {
                 type="password"
                 placeholder="Confirm password"
                 {...register("confirm_password", { required: true })}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="w-100 mb-3">
+          <Col sm={12} md={10} lg={7} className="mx-auto">
+            <Form.Group className="" controlId="formBasicPhoneNumber">
+              <Form.Label>Phone number</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Phone number"
+                {...register("phone_number", { required: true })}
               />
             </Form.Group>
           </Col>

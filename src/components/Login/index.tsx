@@ -8,7 +8,6 @@ import { routesObj } from "../../utils/routes";
 import { LoginRequestBody } from "../../utils/requestBody";
 
 const Login = () => {
-  console.log("routesObj", routesObj);
   const navigate = useNavigate();
   const {
     register,

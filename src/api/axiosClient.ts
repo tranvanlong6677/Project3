@@ -1,13 +1,26 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
+const access_token = localStorage.getItem("access_token");
 const axiosClient = axios.create({
   baseURL: "http://localhost:8888",
-  headers: { "content-type": "application/json" },
+  headers: {
+    // Authorization: `Bearer ${access_token}`,
+    "content-type": "application/json",
+  },
 });
 // Add a request interceptor
 axiosClient.interceptors.request.use(
-  function (config) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function (config: InternalAxiosRequestConfig<any>) {
     // Do something before request is sent
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const newConfig: InternalAxiosRequestConfig<any> = config;
+    const token =
+      localStorage.getItem('access_token') === null ? 'null' : localStorage.getItem('access_token');
+
+    if (token && token !== 'undefined' && token !== 'null') {
+      newConfig.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {
@@ -29,5 +42,5 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
+axiosClient.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 export default axiosClient;

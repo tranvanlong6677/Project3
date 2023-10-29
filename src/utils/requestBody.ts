@@ -9,6 +9,13 @@ export interface RegisterRequestBody {
   confirm_password: string;
   name: string;
   date_of_birth: Date;
+  phone_number: string;
+}
+
+export interface UserInfoRequesstBody {
+  name: string;
+  address: string;
+  email: string;
 }
 
 export interface LogoutRequestBody {
