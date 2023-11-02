@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { CurriedGetDefaultMiddleware } from "@reduxjs/toolkit/dist/getDefaultMiddleware";
-import testReducer from '../services/testSlice'
+import userReducer from '../services/userSlice'
 export const store = configureStore({
   reducer: {
-    testReducer:testReducer
+    userReducer:userReducer
   },
   middleware: (getDefaultMiddleware: CurriedGetDefaultMiddleware) =>
     getDefaultMiddleware({

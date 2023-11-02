@@ -1,8 +1,12 @@
 import { Card } from "react-bootstrap";
 import { ImLocation2 } from "react-icons/im";
 import { FaChartColumn } from "react-icons/fa6";
+import { IDataCarItem } from "../../../utils/childrenProps";
 
-const CarItem = () => {
+const CarItem = ({ data }: { data: IDataCarItem }) => {
+  if (!data) {
+    console.log(data);
+  }
   return (
     <div className="col-12 col-sm-6 col-lg-3 mb-3">
       <Card className="w-90 mx-auto">

@@ -55,6 +55,9 @@ const Header = () => {
               <Link to={routesObj.listBookings} className="nav-link">
                 List booking
               </Link>
+              <Link to={routesObj.createNewCar} className="nav-link">
+                Create a new car
+              </Link>
             </div>
 
             <NavDropdown title="My account" id="basic-nav-dropdown">

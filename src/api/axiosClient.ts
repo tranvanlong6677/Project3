@@ -4,7 +4,6 @@ const access_token = localStorage.getItem("access_token");
 const axiosClient = axios.create({
   baseURL: "http://localhost:8888",
   headers: {
-    // Authorization: `Bearer ${access_token}`,
     "content-type": "application/json",
   },
 });

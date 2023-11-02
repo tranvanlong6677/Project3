@@ -8,6 +8,7 @@ import Register from "../components/Register";
 import UserInformation from "../components/UserInformation";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { routesObj } from "../utils/routes";
+import CreateNewCar from "../components/CreateNewCar";
 
 export const userRoutes: any = [
   {
@@ -28,6 +29,11 @@ export const userRoutes: any = [
   {
     path: routesObj.userInformation,
     component: UserInformation,
+    layout: DefaultLayout,
+  },
+  {
+    path: routesObj.createNewCar,
+    component: CreateNewCar,
     layout: DefaultLayout,
   },
 ];

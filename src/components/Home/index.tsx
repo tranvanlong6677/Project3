@@ -1,12 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Container, Form } from "react-bootstrap";
 import ListCars from "../ListCars";
 import DatePicker from "react-datepicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllProvinceThunk,
+  getDistrictByProvinceThunk,
+  getWardByDistrictThunk,
+} from "../../redux/services/userSlice";
 
 const Home = () => {
+  const { province, district, ward } = useSelector(
+    (state: any) => state.userReducer
+  );
+  const dispatch = useDispatch();
+
   const [dateBookCarStart, setDateBookCarStart] = useState<Date>();
   const [dateBookCarEnd, setDateBookCarEnd] = useState<Date>();
 
+  const handleChangeProvince = async (value: string) => {
+    await dispatch(getDistrictByProvinceThunk(value));
+    dispatch(getWardByDistrictThunk("-1"));
+  };
+  const handleChangeDistrict = async (value: string) => {
+    console.log(value);
+    dispatch(getWardByDistrictThunk(value));
+  };
+  const fetchDataDefault = () => {
+    dispatch(getAllProvinceThunk());
+    dispatch(getDistrictByProvinceThunk("01"));
+    dispatch(getWardByDistrictThunk("001"));
+  };
+  useEffect(() => {
+    fetchDataDefault();
+  }, []);
   return (
     <Container className="home-wrapper">
       <Form className="search mt-3 w-100">
@@ -14,10 +42,26 @@ const Home = () => {
           <div className="col-12 col-md-6">
             <Form.Group className="w-90 mx-auto">
               <Form.Label>Tỉnh, thành phố:</Form.Label>
-              <Form.Select aria-label="Default select example">
-                <option value="1">Hà Nội</option>
-                <option value="2">Địa chỉ</option>
-                <option value="2">Ngày đặt xe</option>
+              <Form.Select
+                defaultValue={"01"}
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                onChange={(event: any) =>
+                  handleChangeProvince(event.target.value)
+                }
+              >
+                {province &&
+                  province.length &&
+                  province?.map((item: any, index: number) => {
+                    return (
+                      <option
+                        value={`${item?.code}`}
+                        key={`index-${index}`}
+                        selected={item?.code === "01"}
+                      >
+                        {item.name_with_type}
+                      </option>
+                    );
+                  })}
               </Form.Select>
             </Form.Group>
           </div>
@@ -25,10 +69,40 @@ const Home = () => {
             <Form.Group className="w-90 mx-auto">
               <Form.Label>Quận, huyện:</Form.Label>
 
+              <Form.Select
+                defaultValue={"001"}
+                onChange={(event: any) =>
+                  handleChangeDistrict(event.target.value)
+                }
+              >
+                {district &&
+                  district.length &&
+                  district?.map((item: any, index: number) => {
+                    return (
+                      <option value={`${item?.code}`} key={`index-${index}`}>
+                        {item.name_with_type}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+            </Form.Group>
+          </div>
+        </div>
+        <div className="d-flex w-100 flex-wrap gap-2 gap-md-0">
+          <div className="col-12 col-md-6">
+            <Form.Group className="w-90 mx-auto mt-3">
+              <Form.Label>Thị xã:</Form.Label>
+
               <Form.Select aria-label="Default select example">
-                <option value="1">Cầu Giấy</option>
-                <option value="2">Địa chỉ</option>
-                <option value="2">Ngày đặt xe</option>
+                {ward &&
+                  ward.length &&
+                  ward?.map((item: any, index: number) => {
+                    return (
+                      <option value={`${item?.code}`} key={`index-${index}`}>
+                        {item.name_with_type}
+                      </option>
+                    );
+                  })}
               </Form.Select>
             </Form.Group>
           </div>
