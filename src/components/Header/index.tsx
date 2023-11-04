@@ -26,6 +26,8 @@ const Header = () => {
         if (res.message === "Logout successfully") {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
+          localStorage.removeItem("user");
+
           toast.success(res.message);
           navigate(routesObj.login);
         }

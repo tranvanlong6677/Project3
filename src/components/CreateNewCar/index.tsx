@@ -1,9 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { CreateANewCarRequestBody } from "../../utils/requestBody";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userApi } from "../../api/userApi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllProvinceThunk,
+  getDistrictByProvinceThunk,
+  getWardByDistrictThunk,
+} from "../../redux/services/userSlice";
 const CreateNewCar = () => {
+  const { province, district, ward } = useSelector(
+    (state: any) => state.userReducer
+  );
+  const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedImage, setSelectedImage] = useState<any>();
   const {
@@ -12,10 +23,31 @@ const CreateNewCar = () => {
     // formState: { errors },
   } = useForm<CreateANewCarRequestBody>();
   const onSubmit = async (data: CreateANewCarRequestBody) => {
+    const user = JSON.parse(
+      (localStorage.getItem("user") as string)
+        ? (localStorage.getItem("user") as string)
+        : ""
+    );
+
     console.log(data);
-    const res = await userApi.createNewCar(data);
-    console.log(">>> res", res);
+    await userApi.createNewCar({ ...data, owner_id: user._id });
   };
+  const handleChangeProvince = async (value: string) => {
+    await dispatch(getDistrictByProvinceThunk(value));
+    dispatch(getWardByDistrictThunk("-1"));
+  };
+  const handleChangeDistrict = async (value: string) => {
+    console.log(value);
+    dispatch(getWardByDistrictThunk(value));
+  };
+  const fetchDataDefault = () => {
+    dispatch(getAllProvinceThunk());
+    dispatch(getDistrictByProvinceThunk("01"));
+    dispatch(getWardByDistrictThunk("001"));
+  };
+  useEffect(() => {
+    fetchDataDefault();
+  }, []);
   return (
     <Container className="mt-3">
       <Form
@@ -24,10 +56,18 @@ const CreateNewCar = () => {
         encType="multiple/form-data"
       >
         <Form.Group className="mb-3" controlId="formBasicLicensePlate">
+          <Form.Label>Tên xe</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Name"
+            {...register("name", { required: true })}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicLicensePlate">
           <Form.Label>Biển số xe</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Biển số xe"
+            placeholder="License plate"
             {...register("license_plate", { required: true })}
           />
         </Form.Group>
@@ -35,15 +75,77 @@ const CreateNewCar = () => {
           <Form.Label>Hãng xe</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Hãng xe"
+            placeholder="Company"
             {...register("company", { required: true })}
           />
         </Form.Group>
+
+        <Form.Group className="mx-auto mb-3">
+          <Form.Label>Tỉnh, thành phố:</Form.Label>
+          <Form.Select
+            defaultValue={"01"}
+            {...register("address.provinceCode", { required: true })}
+            onChange={(event: any) => handleChangeProvince(event.target.value)}
+          >
+            {province &&
+              province.length &&
+              province?.map((item: any, index: number) => {
+                return (
+                  <option
+                    value={`${item?.code}`}
+                    key={`index-${index}`}
+                    selected={item?.code === "01"}
+                  >
+                    {item.name_with_type}
+                  </option>
+                );
+              })}
+          </Form.Select>
+        </Form.Group>
+        <Form.Group className="mx-auto mb-3">
+          <Form.Label>Quận, huyện:</Form.Label>
+
+          <Form.Select
+            defaultValue={"001"}
+            {...register("address.districtCode", { required: true })}
+            onChange={(event: any) => handleChangeDistrict(event.target.value)}
+          >
+            {district &&
+              district.length &&
+              district?.map((item: any, index: number) => {
+                return (
+                  <option value={`${item?.code}`} key={`index-${index}`}>
+                    {item.name_with_type}
+                  </option>
+                );
+              })}
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group className="mx-auto mb-3">
+          <Form.Label>Thị xã:</Form.Label>
+
+          <Form.Select
+            aria-label="Default select example"
+            {...register("address.wardCode", { required: true })}
+          >
+            {ward &&
+              ward.length &&
+              ward?.map((item: any, index: number) => {
+                return (
+                  <option value={`${item?.code}`} key={`index-${index}`}>
+                    {item.name_with_type}
+                  </option>
+                );
+              })}
+          </Form.Select>
+        </Form.Group>
+
         <Form.Group className="mb-3" controlId="formBasicPricePerDay">
           <Form.Label>Số tiền/ngày (VNĐ)</Form.Label>
           <Form.Control
             type="number"
-            placeholder="Số tiền / ngày"
+            placeholder="Price per day"
             {...register("price_per_day", { required: true })}
           />
         </Form.Group>
@@ -51,17 +153,20 @@ const CreateNewCar = () => {
           <Form.Label>Tiền cọc (VNĐ)</Form.Label>
           <Form.Control
             type="number"
-            placeholder="Tiền cọc"
+            placeholder="Deposit"
             {...register("deposit", { required: true })}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicTypeCar">
           <Form.Label>Loại xe</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Loại xe"
+          <Form.Select
+            placeholder="Type car"
             {...register("type_car", { required: true })}
-          />
+          >
+            <option value="1">1</option>
+            <option value="2">1</option>
+            <option value="3">1</option>
+          </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicImage">
           <Form.Label>Ảnh xe</Form.Label>

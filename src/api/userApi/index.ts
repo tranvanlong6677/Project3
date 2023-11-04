@@ -11,11 +11,15 @@ export const userApi = {
     return axiosClient.post(url, data);
   },
   async createNewCar(data: CreateANewCarRequestBody): Promise<AxiosResponse> {
-    const url = "/cars/create-new-car";
+    const url = "/cars/create";
     return axiosClient.post(url, data);
   },
-  async getAllCars(): Promise<AxiosResponse>{
-    const url = "/cars/get-all-cars";
-    return axiosClient.get(url)
-  }
+  async getAllCars(): Promise<AxiosResponse> {
+    const url = "/cars/all";
+    return axiosClient.get(url);
+  },
+  async getAllTypeCars(): Promise<AxiosResponse> {
+    const url = "/cars/all-type";
+    return axiosClient.get(url);
+  },
 };

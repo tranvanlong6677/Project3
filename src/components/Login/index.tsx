@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { authApi } from "../../api/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { routesObj } from "../../utils/routes";
 import { LoginRequestBody } from "../../utils/requestBody";
+import { useDispatch } from "react-redux";
+import { loginThunk } from "../../redux/services/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -21,14 +23,22 @@ const Login = () => {
     console.log("data", data);
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const response: any = await authApi.login(data);
+      const response: any = await dispatch(loginThunk(data));
+      console.log("response", response);
       // eslint-disable-next-line no-unsafe-optional-chaining
-      if (response.result && response.message === "Login successful") {
-        const { access_token, refresh_token } = response.result;
+      if (
+        response.payload.result &&
+        response.payload.message === "Login successful"
+      ) {
+        // console.log("response", response);
+        const { access_token, refresh_token } = response.payload.result;
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
-        toast.success(response.message);
+        localStorage.setItem("user", JSON.stringify(response.payload.user));
+
+        toast.success(response.payload.message);
         if (access_token && refresh_token) {
+          // dispatch
           navigate(routesObj.home);
         }
       }

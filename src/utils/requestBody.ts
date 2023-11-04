@@ -23,11 +23,19 @@ export interface LogoutRequestBody {
 }
 
 export interface CreateANewCarRequestBody {
+  name: string;
   license_plate: string;
   company: string;
   price_per_day: number;
   deposit: number;
-  type_car: string;
+  type_car: number;
   image: string;
+  status: boolean;
+  quantity_of_trips: number;
+  address: {
+    provinceCode: string;
+    districtCode: string;
+    wardCode: string;
+  };
+  owner_id: string;
 }
-

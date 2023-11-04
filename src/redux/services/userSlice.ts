@@ -4,6 +4,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { provinceApi } from "../../api/addressApi/province";
 import { districtApi } from "../../api/addressApi/district";
 import { wardApi } from "../../api/addressApi/ward";
+import { userApi } from "../../api/userApi";
+import { LoginRequestBody } from "../../utils/requestBody";
+import { authApi } from "../../api/authApi";
 
 export const getAllProvinceThunk: any = createAsyncThunk(
   "address/provinceAll",
@@ -35,7 +38,20 @@ export const getWardByDistrictThunk: any = createAsyncThunk(
       const res = await wardApi.getWardByDistrict(districtCode);
       return res;
     } catch (error) {
-      console.log(111)
+      console.log(error);
+    }
+  }
+);
+
+export const loginThunk: any = createAsyncThunk(
+  "user/login",
+  async (data: LoginRequestBody): Promise<any> => {
+    try {
+      const res = await authApi.login(data);
+      console.log("res", res);
+
+      return res;
+    } catch (error) {
       console.log(error);
     }
   }
@@ -47,6 +63,7 @@ export const userSlice = createSlice({
     province: [],
     district: [],
     ward: [],
+    user: {},
   },
   reducers: {},
   extraReducers: {
@@ -79,6 +96,17 @@ export const userSlice = createSlice({
     [getWardByDistrictThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       state.ward = action.payload;
+    },
+    [loginThunk.pending]: (state, action): void => {
+      state.loading = true;
+    },
+    [loginThunk.reject]: (state, action): void => {
+      state.loading = false;
+    },
+    [loginThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      console.log("action", action);
+      state.user = action.payload.user;
     },
   },
 });
