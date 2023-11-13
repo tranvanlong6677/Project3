@@ -24,7 +24,6 @@ const Home = () => {
     dispatch(getWardByDistrictThunk("-1"));
   };
   const handleChangeDistrict = async (value: string) => {
-    console.log(value);
     dispatch(getWardByDistrictThunk(value));
   };
   const fetchDataDefault = () => {

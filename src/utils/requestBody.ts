@@ -13,8 +13,11 @@ export interface RegisterRequestBody {
 }
 
 export interface UserInfoRequesstBody {
-  name: string;
-  address: string;
+  address: {
+    provinceCode: string;
+    districtCode: string;
+    wardCode: string;
+  };
   email: string;
 }
 
@@ -29,7 +32,7 @@ export interface CreateANewCarRequestBody {
   price_per_day: number;
   deposit: number;
   type_car: number;
-  image: string;
+  image: FileList;
   status: boolean;
   quantity_of_trips: number;
   address: {

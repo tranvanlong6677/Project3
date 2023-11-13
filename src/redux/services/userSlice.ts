@@ -67,40 +67,40 @@ export const userSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    [getAllProvinceThunk.pending]: (state, action): void => {
+    [getAllProvinceThunk.pending]: (state, _action): void => {
       state.loading = true;
     },
-    [getAllProvinceThunk.reject]: (state, action): void => {
+    [getAllProvinceThunk.reject]: (state, _action): void => {
       state.loading = false;
     },
     [getAllProvinceThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       state.province = action.payload;
     },
-    [getDistrictByProvinceThunk.pending]: (state, action): void => {
+    [getDistrictByProvinceThunk.pending]: (state, _action): void => {
       state.loading = true;
     },
-    [getDistrictByProvinceThunk.reject]: (state, action): void => {
+    [getDistrictByProvinceThunk.reject]: (state, _action): void => {
       state.loading = false;
     },
     [getDistrictByProvinceThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       state.district = action.payload;
     },
-    [getWardByDistrictThunk.pending]: (state, action): void => {
+    [getWardByDistrictThunk.pending]: (state, _action): void => {
       state.loading = true;
     },
-    [getWardByDistrictThunk.reject]: (state, action): void => {
+    [getWardByDistrictThunk.reject]: (state, _action): void => {
       state.loading = false;
     },
     [getWardByDistrictThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       state.ward = action.payload;
     },
-    [loginThunk.pending]: (state, action): void => {
+    [loginThunk.pending]: (state, _action): void => {
       state.loading = true;
     },
-    [loginThunk.reject]: (state, action): void => {
+    [loginThunk.reject]: (state, _action): void => {
       state.loading = false;
     },
     [loginThunk.fulfilled]: (state, action): void => {

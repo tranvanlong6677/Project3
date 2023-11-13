@@ -20,7 +20,6 @@ const Register = () => {
   const onSubmit: SubmitHandler<RegisterRequestBody> = async (
     data: RegisterRequestBody
   ) => {
-    console.log("data", data);
     const dataClone = { ...data, date_of_birth: new Date(data.date_of_birth) };
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +28,6 @@ const Register = () => {
       await navigate(routesObj.login);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error);
       const dataErrors = error?.response?.data?.errors;
       toast.error(dataErrors[Object.keys(dataErrors)[0]].msg);
     }

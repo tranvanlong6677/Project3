@@ -20,11 +20,9 @@ const Login = () => {
   const onSubmit: SubmitHandler<LoginRequestBody> = async (
     data: LoginRequestBody
   ) => {
-    console.log("data", data);
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const response: any = await dispatch(loginThunk(data));
-      console.log("response", response);
       // eslint-disable-next-line no-unsafe-optional-chaining
       if (
         response.payload.result &&
@@ -45,7 +43,6 @@ const Login = () => {
       // link đến trang chính khi đăng nhập thành công
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      console.log(error);
       toast.error(error?.response?.data?.message);
     }
   };

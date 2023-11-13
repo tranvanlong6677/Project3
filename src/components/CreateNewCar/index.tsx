@@ -29,15 +29,24 @@ const CreateNewCar = () => {
         : ""
     );
 
-    console.log(data);
-    await userApi.createNewCar({ ...data, owner_id: user._id });
+    console.log("data", data);
+
+    // formData.append("companyName", companyName);
+    // formData.append("image", selectedImage);
+    try {
+      const res = await userApi.createNewCar({ ...data, owner_id: user._id });
+      console.log("check res hihi", res);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // await userApi.createNewCar(formData);
   };
   const handleChangeProvince = async (value: string) => {
     await dispatch(getDistrictByProvinceThunk(value));
     dispatch(getWardByDistrictThunk("-1"));
   };
   const handleChangeDistrict = async (value: string) => {
-    console.log(value);
     dispatch(getWardByDistrictThunk(value));
   };
   const fetchDataDefault = () => {
@@ -190,6 +199,31 @@ const CreateNewCar = () => {
             />
           </div>
         )}
+        <br />
+        <br />
+        <br />
+
+        {/* <Form.Group className="mb-3" controlId="formBasicImage">
+          <Form.Label>Ảnh xe</Form.Label>
+          <Form.Control
+            type="file"
+            // placeholder="Image"
+            {...register("image", { required: true })}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={async (event: any) => {
+              console.log("event.target.files[0]", event.target.files);
+              // setSelectedImage(event.target.files[0]);
+              const formData = new FormData();
+              formData.append("image", event.target.files[0]);
+              console.log("formData", formData);
+              await axios.post("http://localhost:8888/cars/create", formData, {
+                headers: {
+                  "Content-type": "multipart/form-data",
+                },
+              });
+            }}
+          />
+        </Form.Group> */}
 
         <Button variant="primary" type="submit" className="mx-auto d-block">
           Tạo xe mới
