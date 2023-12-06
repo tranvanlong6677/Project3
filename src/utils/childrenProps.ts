@@ -18,4 +18,7 @@ export interface IDataCarItem {
   name: string;
   image: string;
   owner_id: string;
+  owner_name: string;
+  addressString: string;
+  phone_number: string;
 }

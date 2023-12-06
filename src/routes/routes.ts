@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment } from "react";
-import CarInformation from "../components/CarInformation";
 import Home from "../components/Home";
 import ListBooking from "../components/ListBooking";
 import Login from "../components/Login";
@@ -9,6 +8,8 @@ import UserInformation from "../components/UserInformation";
 import DefaultLayout from "../layouts/DefaultLayout";
 import { routesObj } from "../utils/routes";
 import CreateNewCar from "../components/CreateNewCar";
+import BookingCar from "../components/BookingCar";
+import RentalListings from "../components/RentalListings";
 
 export const userRoutes: any = [
   {
@@ -16,11 +17,7 @@ export const userRoutes: any = [
     component: Home,
     layout: DefaultLayout,
   },
-  {
-    path: routesObj.carInformation,
-    component: CarInformation,
-    layout: DefaultLayout,
-  },
+
   {
     path: routesObj.listBookings,
     component: ListBooking,
@@ -34,6 +31,16 @@ export const userRoutes: any = [
   {
     path: routesObj.createNewCar,
     component: CreateNewCar,
+    layout: DefaultLayout,
+  },
+  {
+    path: routesObj.bookingCar,
+    component: BookingCar,
+    layout: DefaultLayout,
+  },
+  {
+    path: routesObj.rentalListings,
+    component: RentalListings,
     layout: DefaultLayout,
   },
 ];

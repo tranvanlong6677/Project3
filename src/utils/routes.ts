@@ -6,4 +6,6 @@ export const routesObj = {
   listBookings: "/list-bookings",
   userInformation: "/user-information",
   createNewCar: "/create-car",
+  bookingCar: "/booking",
+  rentalListings: "/rental-listing",
 };

@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getListBookingPaginateThunk } from "../../redux/services/userSlice";
-import ReactPaginate from "react-paginate";
+import {
+  completeOrderThunk,
+  getRentalListingsThunk,
+} from "../../redux/services/userSlice";
+import { toast } from "react-toastify";
 
-const ListBooking = () => {
+const Index = () => {
   const dispatch = useDispatch();
-  const perPage = 5;
-  const { listBookingPaginate, pageCountListBooking, loading } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (state: any) => state.userReducer
-  );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { rentalListings } = useSelector((state: any) => state.userReducer);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dataModal, setDataModal] = useState<any>();
-  const [pageCurrent, setPageCurrent] = useState<number>(1);
   const [show, setShow] = useState(false);
-
+  const [rentalListingsState, setRentalListingsState] = useState([]);
   const handleClose = () => {
     setShow(false);
     setDataModal(null);
@@ -26,23 +25,26 @@ const ListBooking = () => {
     setDataModal(data);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handlePageClick = (event: any) => {
-    console.log(event.selected + 1);
-    setPageCurrent(event.selected + 1);
-    dispatch(
-      getListBookingPaginateThunk({ page: event.selected + 1, perPage })
-    );
+  const handleClickDone = async (data: any) => {
+    console.log(data);
+    try {
+      const result = await dispatch(
+        completeOrderThunk({ booking_id: data._id, car_id: data.carId })
+      );
+      await dispatch(getRentalListingsThunk());
+      console.log(result);
+      toast.success(result.payload.message);
+    } catch (error) {
+      toast.error("Có lỗi xảy ra");
+    }
   };
-  const fetchListBooking = async (page: number, perPage: number) => {
-    console.log(page, perPage);
-    await dispatch(
-      getListBookingPaginateThunk({ page: +page, perPage: perPage })
-    );
-  };
+
   useEffect(() => {
-    fetchListBooking(1, perPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getRentalListingsThunk());
+  }, [dispatch]);
+  useEffect(() => {
+    setRentalListingsState(rentalListings);
+  }, [rentalListings]);
   return (
     <div className="container mt-5">
       <h1>Danh sách đơn </h1>
@@ -58,14 +60,12 @@ const ListBooking = () => {
             </tr>
           </thead>
           <tbody>
-            {listBookingPaginate &&
-            listBookingPaginate.length > 0 &&
-            loading === false ? (
+            {rentalListingsState && rentalListingsState?.length > 0 ? (
               // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-              listBookingPaginate?.map((item: any, index: number) => {
+              rentalListingsState?.map((item: any, index: number) => {
                 return (
                   <tr>
-                    <td>{(pageCurrent - 1) * 5 + (index + 1)}</td>
+                    <td>{index + 1}</td>
                     <td>{item._id}</td>
                     <td>{item?.car_info[0]?.name}</td>
                     <td>{item?.car_info[0]?.owner_name}</td>
@@ -76,11 +76,18 @@ const ListBooking = () => {
                       >
                         Xem chi tiết
                       </Button>
-                      {/* {!item?.isDone ? (
-                      <Button variant="success">Hoàn thành</Button>
-                    ) : (
-                      <></>
-                    )} */}
+                      {!item?.isDone ? (
+                        <Button
+                          variant="success"
+                          onClick={() => {
+                            handleClickDone(item);
+                          }}
+                        >
+                          Hoàn thành
+                        </Button>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 );
@@ -91,27 +98,6 @@ const ListBooking = () => {
           </tbody>
         </Table>
       </div>
-
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={Math.ceil(pageCountListBooking / 5)}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
-        containerClassName={"pagination"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        activeClassName={"active"}
-      />
-
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Thông tin chi tiết đơn đặt xe</Modal.Title>
@@ -150,4 +136,4 @@ const ListBooking = () => {
   );
 };
 
-export default ListBooking;
+export default Index;

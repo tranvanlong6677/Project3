@@ -7,23 +7,37 @@ const axiosClient = axios.create({
     "content-type": "application/json",
   },
 });
+
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function (config: InternalAxiosRequestConfig<any>) {
-    // Do something before request is sent
+  async function (config: InternalAxiosRequestConfig<any>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newConfig: InternalAxiosRequestConfig<any> = config;
     const token =
-      localStorage.getItem('access_token') === null ? 'null' : localStorage.getItem('access_token');
+      localStorage.getItem("access_token") === null
+        ? "null"
+        : localStorage.getItem("access_token");
 
-    if (token && token !== 'undefined' && token !== 'null') {
+    // if (token && token !== "undefined" && token !== "null") {
+    //   if (isAccessTokenExpired(token)) {
+    //     console.log(1);
+    //     const { result } = await refreshToken();
+    //     const newAccessToken = result.access_token;
+    //     newConfig.headers.Authorization = `Bearer ${newAccessToken}`;
+    //   } else {
+    //     console.log(2);
+    //     newConfig.headers.Authorization = `Bearer ${token}`;
+    //   }
+    // }
+    if (token && token !== "undefined" && token !== "null") {
       newConfig.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   function (error) {
-    // Do something with request error
+    console.log("hihi", error);
     return Promise.reject(error);
   }
 );
@@ -41,5 +55,5 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-axiosClient.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+axiosClient.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
 export default axiosClient;

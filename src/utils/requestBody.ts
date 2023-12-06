@@ -42,3 +42,9 @@ export interface CreateANewCarRequestBody {
   };
   owner_id: string;
 }
+export interface BookingCarType {
+  start_date: string;
+  end_date: string;
+  ownerId: string;
+  carId: string;
+}

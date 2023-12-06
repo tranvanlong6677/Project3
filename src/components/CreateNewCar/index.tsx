@@ -3,13 +3,14 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { CreateANewCarRequestBody } from "../../utils/requestBody";
 import { useEffect, useState } from "react";
-import { userApi } from "../../api/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  createCarThunk,
   getAllProvinceThunk,
   getDistrictByProvinceThunk,
   getWardByDistrictThunk,
 } from "../../redux/services/userSlice";
+import { toast } from "react-toastify";
 const CreateNewCar = () => {
   const { province, district, ward } = useSelector(
     (state: any) => state.userReducer
@@ -17,11 +18,7 @@ const CreateNewCar = () => {
   const dispatch = useDispatch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedImage, setSelectedImage] = useState<any>();
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<CreateANewCarRequestBody>();
+  const { register, handleSubmit } = useForm<CreateANewCarRequestBody>();
   const onSubmit = async (data: CreateANewCarRequestBody) => {
     const user = JSON.parse(
       (localStorage.getItem("user") as string)
@@ -29,18 +26,16 @@ const CreateNewCar = () => {
         : ""
     );
 
-    console.log("data", data);
-
-    // formData.append("companyName", companyName);
-    // formData.append("image", selectedImage);
     try {
-      const res = await userApi.createNewCar({ ...data, owner_id: user._id });
+      const res = await dispatch(
+        createCarThunk({ ...data, owner_id: user._id })
+      );
+
       console.log("check res hihi", res);
     } catch (error) {
-      console.log(error);
+      console.log("haha", error);
+      toast.error("Error");
     }
-
-    // await userApi.createNewCar(formData);
   };
   const handleChangeProvince = async (value: string) => {
     await dispatch(getDistrictByProvinceThunk(value));

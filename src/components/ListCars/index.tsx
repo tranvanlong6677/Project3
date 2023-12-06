@@ -19,11 +19,13 @@ const ListCars = () => {
 
   return (
     <div className="list-cars-wrapper d-flex mw-100 flex-wrap mt-5">
-      {listCars &&
-        listCars.length &&
+      {listCars && listCars.length ? (
         listCars?.map((item: IDataCarItem, index: number) => {
           return <CarItem data={item} key={`index${index}`} />;
-        })}
+        })
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

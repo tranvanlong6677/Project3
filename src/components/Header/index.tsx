@@ -51,26 +51,29 @@ const Header = () => {
           <Nav className="w-100 d-flex justify-content-between">
             <div className="d-flex flex-column flex-md-row">
               <Link to={routesObj.home} className="nav-link">
-                Home
+                Trang chủ
               </Link>
               <Link to={routesObj.listBookings} className="nav-link">
-                List booking
+                Danh sách đã thuê
+              </Link>
+              <Link to={routesObj.rentalListings} className="nav-link">
+                Danh sách cho thuê
               </Link>
               <Link to={routesObj.createNewCar} className="nav-link">
-                Create a new car
+                Tạo mới xe
               </Link>
             </div>
 
-            <NavDropdown title="My account" id="basic-nav-dropdown">
+            <NavDropdown title="Tài khoản của tôi" id="basic-nav-dropdown">
               <Link to={routesObj.userInformation} className="dropdown-item">
-                Information
+                Thay đổi thông tin cá nhân
               </Link>
               <NavDropdown.Divider />
               <DropdownItem
                 className="dropdown-item"
                 onClick={() => handleLogout()}
               >
-                Logout
+                Đăng xuất
               </DropdownItem>
             </NavDropdown>
           </Nav>
