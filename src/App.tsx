@@ -3,11 +3,16 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { publicRoutes, userRoutes } from "./routes/routes";
 import DefaultLayout from "./layouts/DefaultLayout";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import ProtectedRoutes from "./routes/ProtectedRoute";
 import CheckPublicRoutes from "./routes/checkPublicRoute";
+import { getUserInfoThunk } from "./redux/services/userSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  const access_token = localStorage.getItem("access_token");
+
   const userRoute = userRoutes.map((route: any) => {
     const Page = route.component;
     let Layout: any = DefaultLayout;
@@ -51,6 +56,11 @@ function App() {
       />
     );
   });
+  useEffect(() => {
+    if (access_token) {
+      dispatch(getUserInfoThunk());
+    }
+  }, [access_token, dispatch]);
   return (
     <>
       {/* <Outlet /> */}

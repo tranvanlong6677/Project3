@@ -15,6 +15,10 @@ export const userApi = {
     const url = "/users/update";
     return axiosClient.put(url, data);
   },
+  async getUserInfo(): Promise<AxiosResponse> {
+    const url = `/users/info`;
+    return axiosClient.get(url);
+  },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async createNewCar(data: CreateANewCarRequestBody): Promise<AxiosResponse> {
     const formData = new FormData();
@@ -43,6 +47,10 @@ export const userApi = {
     const url = "/cars/all";
     return axiosClient.get(url);
   },
+  async getListCars(page: string, perPage: string): Promise<AxiosResponse> {
+    const url = `/cars/page=${page}/per-page=${perPage}`;
+    return axiosClient.get(url);
+  },
   async getAllTypeCars(): Promise<AxiosResponse> {
     const url = "/cars/all-type";
     return axiosClient.get(url);
@@ -64,6 +72,13 @@ export const userApi = {
   },
   async getRentalListings(): Promise<AxiosResponse> {
     const url = "/cars/rental-listings";
+    return axiosClient.get(url);
+  },
+  async getRentalListingsPaginate(
+    page: number,
+    perPage: number
+  ): Promise<AxiosResponse> {
+    const url = `/cars/rental-listings/page/${page}/per-page/${perPage}`;
     return axiosClient.get(url);
   },
   async completeOrder({

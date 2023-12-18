@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllProvinceThunk,
   getDistrictByProvinceThunk,
-  getWardByDistrictThunk,
 } from "../../redux/services/userSlice";
 import { useEffect } from "react";
 
@@ -18,10 +17,11 @@ const UserInformation = () => {
     handleSubmit,
     // formState: { errors },
   } = useForm<UserInfoRequesstBody>();
-  const { province, district, ward, user } = useSelector(
+  const { province, district, user } = useSelector(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.userReducer
   );
+  console.log(">>> check user", user);
   const dispatch = useDispatch();
   const onSubmit = async (data: UserInfoRequesstBody) => {
     try {
@@ -39,15 +39,11 @@ const UserInformation = () => {
   };
   const handleChangeProvince = async (value: string) => {
     await dispatch(getDistrictByProvinceThunk(value));
-    dispatch(getWardByDistrictThunk("-1"));
   };
-  const handleChangeDistrict = async (value: string) => {
-    dispatch(getWardByDistrictThunk(value));
-  };
+
   const fetchDataDefault = () => {
     dispatch(getAllProvinceThunk());
-    dispatch(getDistrictByProvinceThunk("01"));
-    dispatch(getWardByDistrictThunk("001"));
+    dispatch(getDistrictByProvinceThunk(user?.address?.provinceCode));
   };
   useEffect(() => {
     fetchDataDefault();
@@ -65,7 +61,7 @@ const UserInformation = () => {
                 className=""
                 type="text"
                 placeholder="Tên người dùng"
-                value={user.name}
+                value={user?.name}
                 disabled={true}
                 // {...register("name", { required: true })}
               />
@@ -78,7 +74,7 @@ const UserInformation = () => {
                 className=""
                 type="email"
                 placeholder="Email"
-                value={user.email}
+                value={user?.email}
                 disabled={true}
                 // {...register("email", { required: true })}
               />
@@ -103,7 +99,7 @@ const UserInformation = () => {
             <Form.Group className="mx-auto w-90">
               <Form.Label>Tỉnh, thành phố:</Form.Label>
               <Form.Select
-                defaultValue={"01"}
+                defaultValue={+user?.address?.provinceCode}
                 {...register("address.provinceCode", { required: true })}
                 onChange={(event: any) =>
                   handleChangeProvince(event.target.value)
@@ -116,7 +112,7 @@ const UserInformation = () => {
                       <option
                         value={`${item?.code}`}
                         key={`index-${index}`}
-                        selected={item?.code === "01"}
+                        selected={item?.code === user?.address?.provinceCode}
                       >
                         {item.name_with_type}
                       </option>
@@ -139,26 +135,6 @@ const UserInformation = () => {
                 {district &&
                   district.length &&
                   district?.map((item: any, index: number) => {
-                    return (
-                      <option value={`${item?.code}`} key={`index-${index}`}>
-                        {item.name_with_type}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            </Form.Group>
-          </div>
-          <div className="col-12 col-md-6 my-3">
-            <Form.Group className="mx-auto w-90">
-              <Form.Label>Thị xã:</Form.Label>
-
-              <Form.Select
-                aria-label="Default select example"
-                {...register("address.wardCode", { required: true })}
-              >
-                {ward &&
-                  ward.length &&
-                  ward?.map((item: any, index: number) => {
                     return (
                       <option value={`${item?.code}`} key={`index-${index}`}>
                         {item.name_with_type}

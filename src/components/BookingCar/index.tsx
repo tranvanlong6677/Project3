@@ -56,7 +56,7 @@ const Index = () => {
     }
 
     const res = await dispatch(bookingCarThunk(data));
-    console.log("res111", res);
+    console.log("hihi bk", res);
     if (res.payload instanceof AxiosError) {
       toast.error(res.payload.response.data.message);
     } else {

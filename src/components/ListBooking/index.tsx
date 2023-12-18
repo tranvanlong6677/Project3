@@ -26,10 +26,10 @@ const ListBooking = () => {
     setDataModal(data);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handlePageClick = (event: any) => {
+  const handlePageClick = async (event: any) => {
     console.log(event.selected + 1);
     setPageCurrent(event.selected + 1);
-    dispatch(
+    await dispatch(
       getListBookingPaginateThunk({ page: event.selected + 1, perPage })
     );
   };

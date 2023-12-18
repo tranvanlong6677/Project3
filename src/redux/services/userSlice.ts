@@ -62,6 +62,19 @@ export const loginThunk: any = createAsyncThunk(
   }
 );
 
+export const getUserInfoThunk: any = createAsyncThunk(
+  "user/get-info",
+  async (): Promise<any> => {
+    try {
+      const res = await userApi.getUserInfo();
+      console.log("user info", res);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const bookingCarThunk: any = createAsyncThunk(
   "cars/booking",
   async (data: BookingCarType): Promise<any> => {
@@ -118,6 +131,24 @@ export const getRentalListingsThunk: any = createAsyncThunk(
   }
 );
 
+export const getRentalListingsPaginateThunk: any = createAsyncThunk(
+  "cars/rental-listings",
+  async ({
+    page,
+    perPage,
+  }: {
+    page: number;
+    perPage: number;
+  }): Promise<any> => {
+    try {
+      const res = await userApi.getRentalListingsPaginate(page, perPage);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const createCarThunk: any = createAsyncThunk(
   "cars/create",
   async (data: CreateANewCarRequestBody): Promise<any> => {
@@ -147,6 +178,25 @@ export const completeOrderThunk: any = createAsyncThunk(
     }
   }
 );
+export const getListCarsThunk: any = createAsyncThunk(
+  "cars/list-cars",
+  async ({
+    page,
+    perPage,
+  }: {
+    page: string;
+    perPage: string;
+  }): Promise<any> => {
+    try {
+      console.log(page, perPage);
+      const res = await userApi.getListCars(page, perPage);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -155,11 +205,15 @@ export const userSlice = createSlice({
     district: [],
     ward: [],
     user: {},
+    listCars: [],
+    totalListCars: 0,
     carDataBooking: {},
     listBooking: [],
     listBookingPaginate: [],
     rentalListings: [],
     pageCountListBooking: 0,
+    rentalListingsPaginate: [],
+    pageCountRentalListings: 0,
   },
   reducers: {
     setCarDataBooking: (state, action) => {
@@ -271,6 +325,41 @@ export const userSlice = createSlice({
       );
       state.listBookingPaginate = action.payload[0]?.result;
       state.pageCountListBooking = action.payload[0]?.totalCount[0]?.totalCount;
+    },
+    [getRentalListingsPaginateThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [getRentalListingsPaginateThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [getRentalListingsPaginateThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+
+      console.log("list paginate", action.payload);
+      state.rentalListingsPaginate = action.payload[0]?.result;
+      state.pageCountRentalListings =
+        action.payload[0]?.totalCount[0]?.totalCount;
+    },
+    [getListCarsThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [getListCarsThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [getListCarsThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      state.listCars = action.payload[0].result;
+      state.totalListCars = action.payload[0].totalCount[0].totalCount;
+    },
+    [getUserInfoThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [getUserInfoThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [getUserInfoThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      state.user = action.payload;
     },
   },
 });
