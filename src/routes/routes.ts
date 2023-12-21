@@ -10,6 +10,7 @@ import { routesObj } from "../utils/routes";
 import CreateNewCar from "../components/CreateNewCar";
 import BookingCar from "../components/BookingCar";
 import RentalListings from "../components/RentalListings";
+import ListCarsUser from "../components/ListCarsUser";
 
 export const userRoutes: any = [
   {
@@ -41,6 +42,11 @@ export const userRoutes: any = [
   {
     path: routesObj.rentalListings,
     component: RentalListings,
+    layout: DefaultLayout,
+  },
+  {
+    path: routesObj.listCarsUser,
+    component: ListCarsUser,
     layout: DefaultLayout,
   },
 ];

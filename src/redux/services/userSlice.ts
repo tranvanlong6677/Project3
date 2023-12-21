@@ -9,6 +9,7 @@ import {
   BookingCarType,
   CreateANewCarRequestBody,
   LoginRequestBody,
+  UserInfoRequesstBody,
 } from "../../utils/requestBody";
 import { authApi } from "../../api/authApi";
 import { userApi } from "../../api/userApi";
@@ -16,62 +17,46 @@ import { userApi } from "../../api/userApi";
 export const getAllProvinceThunk: any = createAsyncThunk(
   "address/provinceAll",
   async (): Promise<any> => {
-    try {
-      const res = await provinceApi.getAllProvince();
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await provinceApi.getAllProvince();
+    return res;
   }
 );
 export const getDistrictByProvinceThunk: any = createAsyncThunk(
   "address/getDistrictByProvince",
   async (provinceCode: string): Promise<any> => {
-    try {
-      const res = await districtApi.getDistrictByProvince(provinceCode);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await districtApi.getDistrictByProvince(provinceCode);
+    return res;
   }
 );
 
 export const getWardByDistrictThunk: any = createAsyncThunk(
   "address/getWardByDistrict",
   async (districtCode: string): Promise<any> => {
-    try {
-      const res = await wardApi.getWardByDistrict(districtCode);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await wardApi.getWardByDistrict(districtCode);
+    return res;
   }
 );
 
 export const loginThunk: any = createAsyncThunk(
   "user/login",
   async (data: LoginRequestBody): Promise<any> => {
-    try {
-      const res = await authApi.login(data);
-      console.log("res", res);
-
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await authApi.login(data);
+    return res;
   }
 );
 
 export const getUserInfoThunk: any = createAsyncThunk(
   "user/get-info",
   async (): Promise<any> => {
-    try {
-      const res = await userApi.getUserInfo();
-      console.log("user info", res);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getUserInfo();
+    return res;
+  }
+);
+export const updateUserInfoThunk: any = createAsyncThunk(
+  "user/update",
+  async (dataUpdate: UserInfoRequesstBody): Promise<any> => {
+    const res = await userApi.updateUserInfo(dataUpdate);
+    return res;
   }
 );
 
@@ -91,12 +76,8 @@ export const bookingCarThunk: any = createAsyncThunk(
 export const getListBookingThunk: any = createAsyncThunk(
   "cars/list-booking",
   async (): Promise<any> => {
-    try {
-      const res = await userApi.getListBooking();
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getListBooking();
+    return res;
   }
 );
 
@@ -109,25 +90,16 @@ export const getListBookingPaginateThunk: any = createAsyncThunk(
     page: number;
     perPage: number;
   }): Promise<any> => {
-    try {
-      console.log("page: " + page + " per page: " + perPage);
-      const res = await userApi.getListBookingPaginate(page, perPage);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getListBookingPaginate(page, perPage);
+    return res;
   }
 );
 
 export const getRentalListingsThunk: any = createAsyncThunk(
   "cars/rental-listings",
   async (): Promise<any> => {
-    try {
-      const res = await userApi.getRentalListings();
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getRentalListings();
+    return res;
   }
 );
 
@@ -140,24 +112,16 @@ export const getRentalListingsPaginateThunk: any = createAsyncThunk(
     page: number;
     perPage: number;
   }): Promise<any> => {
-    try {
-      const res = await userApi.getRentalListingsPaginate(page, perPage);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getRentalListingsPaginate(page, perPage);
+    return res;
   }
 );
 
 export const createCarThunk: any = createAsyncThunk(
   "cars/create",
   async (data: CreateANewCarRequestBody): Promise<any> => {
-    try {
-      const res = await userApi.createNewCar(data);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.createNewCar(data);
+    return res;
   }
 );
 
@@ -170,12 +134,8 @@ export const completeOrderThunk: any = createAsyncThunk(
     booking_id: string;
     car_id: string;
   }): Promise<any> => {
-    try {
-      const res = await userApi.completeOrder({ booking_id, car_id });
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.completeOrder({ booking_id, car_id });
+    return res;
   }
 );
 export const getListCarsThunk: any = createAsyncThunk(
@@ -187,13 +147,22 @@ export const getListCarsThunk: any = createAsyncThunk(
     page: string;
     perPage: string;
   }): Promise<any> => {
-    try {
-      console.log(page, perPage);
-      const res = await userApi.getListCars(page, perPage);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await userApi.getListCars(page, perPage);
+    return res;
+  }
+);
+
+export const getListCarsUserThunk: any = createAsyncThunk(
+  "cars/list-cars-user",
+  async ({
+    page,
+    perPage,
+  }: {
+    page: string;
+    perPage: string;
+  }): Promise<any> => {
+    const res = await userApi.getListCarsUser({ page, perPage });
+    return res;
   }
 );
 
@@ -214,6 +183,8 @@ export const userSlice = createSlice({
     pageCountListBooking: 0,
     rentalListingsPaginate: [],
     pageCountRentalListings: 0,
+    listCarsUser: [],
+    totalCountListCarsUser: 0,
   },
   reducers: {
     setCarDataBooking: (state, action) => {
@@ -259,7 +230,7 @@ export const userSlice = createSlice({
     },
     [loginThunk.fulfilled]: (state, action): void => {
       state.loading = false;
-      state.user = action.payload.user;
+      state.user = action.payload?.user;
     },
     [bookingCarThunk.pending]: (state, _action): void => {
       state.loading = true;
@@ -279,12 +250,9 @@ export const userSlice = createSlice({
     [getListBookingThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       // action.payload.result.pop();
-      const listClone: any = Object.values(action.payload.result);
+      const listClone: any = Object.values(action.payload?.result);
       listClone.pop();
-      console.log(">>> action payload", action.payload.result);
-      console.log(">>> listClone", listClone);
 
-      // console.log(">>> action payload", Object.values(action.payload.result));
       state.listBooking = listClone;
     },
     [getRentalListingsThunk.pending]: (state, _action): void => {
@@ -295,11 +263,8 @@ export const userSlice = createSlice({
     },
     [getRentalListingsThunk.fulfilled]: (state, action): void => {
       state.loading = false;
-      // action.payload.result.pop();
       const listClone: any = Object.values(action.payload);
       listClone.pop();
-      console.log("listClone", listClone);
-      // console.log(">>> action payload", Object.values(action.payload.result));
       state.rentalListings = listClone;
     },
     [completeOrderThunk.pending]: (state, _action): void => {
@@ -319,10 +284,7 @@ export const userSlice = createSlice({
     },
     [getListBookingPaginateThunk.fulfilled]: (state, action): void => {
       state.loading = false;
-      console.log(
-        "list paginate",
-        action.payload[0]?.totalCount[0]?.totalCount
-      );
+
       state.listBookingPaginate = action.payload[0]?.result;
       state.pageCountListBooking = action.payload[0]?.totalCount[0]?.totalCount;
     },
@@ -335,7 +297,6 @@ export const userSlice = createSlice({
     [getRentalListingsPaginateThunk.fulfilled]: (state, action): void => {
       state.loading = false;
 
-      console.log("list paginate", action.payload);
       state.rentalListingsPaginate = action.payload[0]?.result;
       state.pageCountRentalListings =
         action.payload[0]?.totalCount[0]?.totalCount;
@@ -348,8 +309,8 @@ export const userSlice = createSlice({
     },
     [getListCarsThunk.fulfilled]: (state, action): void => {
       state.loading = false;
-      state.listCars = action.payload[0].result;
-      state.totalListCars = action.payload[0].totalCount[0].totalCount;
+      state.listCars = action.payload[0]?.result;
+      state.totalListCars = action.payload[0]?.totalCount[0]?.totalCount;
     },
     [getUserInfoThunk.pending]: (state, _action): void => {
       state.loading = true;
@@ -360,6 +321,29 @@ export const userSlice = createSlice({
     [getUserInfoThunk.fulfilled]: (state, action): void => {
       state.loading = false;
       state.user = action.payload;
+    },
+    [updateUserInfoThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [updateUserInfoThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [updateUserInfoThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      state.user = action.payload?.result;
+    },
+    [getListCarsUserThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [getListCarsUserThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [getListCarsUserThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      state.listCarsUser = action.payload[0]?.result;
+      console.log(action.payload);
+      state.totalCountListCarsUser =
+        action.payload[0]?.totalCount[0]?.totalCount;
     },
   },
 });

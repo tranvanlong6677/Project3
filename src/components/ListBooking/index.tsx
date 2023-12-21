@@ -3,6 +3,7 @@ import { Button, Modal, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getListBookingPaginateThunk } from "../../redux/services/userSlice";
 import ReactPaginate from "react-paginate";
+import { typeCars } from "../../utils/typeCars";
 
 const ListBooking = () => {
   const dispatch = useDispatch();
@@ -27,25 +28,24 @@ const ListBooking = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePageClick = async (event: any) => {
-    console.log(event.selected + 1);
     setPageCurrent(event.selected + 1);
     await dispatch(
       getListBookingPaginateThunk({ page: event.selected + 1, perPage })
     );
   };
   const fetchListBooking = async (page: number, perPage: number) => {
-    console.log(page, perPage);
     await dispatch(
       getListBookingPaginateThunk({ page: +page, perPage: perPage })
     );
   };
+  console.log("listBookingPaginate", listBookingPaginate);
   useEffect(() => {
     fetchListBooking(1, perPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="container mt-5">
-      <h1>Danh sách đơn </h1>
+      <h1>Danh sách đơn đi thuê</h1>
       <div className="table-wrapper">
         <Table striped bordered hover>
           <thead>
@@ -53,6 +53,8 @@ const ListBooking = () => {
               <th>#</th>
               <th>ID đơn</th>
               <th>Tên xe</th>
+              <th>Biển số xe</th>
+              <th>Loại xe</th>
               <th>Chủ xe</th>
               <th>Chi tiết</th>
             </tr>
@@ -67,8 +69,13 @@ const ListBooking = () => {
                   <tr>
                     <td>{(pageCurrent - 1) * 5 + (index + 1)}</td>
                     <td>{item._id}</td>
-                    <td>{item?.car_info[0]?.name}</td>
-                    <td>{item?.car_info[0]?.owner_name}</td>
+                    <td>{item?.car_info?.name}</td>
+                    <td>{item?.car_info?.license_plate}</td>
+                    <td>{typeCars[+item?.car_info?.type_car - 1]?.name}</td>
+
+                    {/* <td>{item?.car_info?.name}</td> */}
+
+                    <td>{item?.car_info?.owner_name}</td>
                     <td className="d-flex gap-3">
                       <Button
                         variant="primary"
@@ -122,15 +129,20 @@ const ListBooking = () => {
               <tr>
                 <th>Địa chỉ</th>
                 <th>Tên chủ xe</th>
+                <th>Liên hệ</th>
+                <th>Email</th>
                 <th>Thời gian thuê</th>
-                <th>Số tiền</th>
+                <th>Số tiền (VNĐ)</th>
                 <th>Trạng thái</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{dataModal?.car_info[0]?.addressString}</td>
-                <td>{dataModal?.car_info[0]?.owner_name}</td>
+                <td>{dataModal?.car_info?.addressString}</td>
+                <td>{dataModal?.car_info?.owner_name}</td>
+                <td>{dataModal?.owner_info?.phone_number}</td>
+                <td>{dataModal?.owner_info?.email}</td>
+
                 <td>
                   {dataModal?.start_date}-{dataModal?.end_date}
                 </td>

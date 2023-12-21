@@ -17,7 +17,6 @@ const Header = () => {
     // const access_token: string | null = localStorage.getItem("access_token");
     const refresh_token: string | null = localStorage.getItem("refresh_token");
     // console.log("access_token", access_token);
-    console.log("refresh_token", refresh_token);
 
     if (refresh_token) {
       try {
@@ -64,9 +63,18 @@ const Header = () => {
               </Link>
             </div>
 
-            <NavDropdown title="Tài khoản của tôi" id="basic-nav-dropdown">
+            <NavDropdown
+              title="Tài khoản của tôi"
+              id="basic-nav-dropdown"
+              autoClose={true}
+            >
               <Link to={routesObj.userInformation} className="dropdown-item">
                 Thay đổi thông tin cá nhân
+              </Link>
+              <NavDropdown.Divider />
+
+              <Link to={routesObj.listCarsUser} className="dropdown-item">
+                Danh sách xe hiện có
               </Link>
               <NavDropdown.Divider />
               <DropdownItem

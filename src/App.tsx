@@ -56,11 +56,15 @@ function App() {
       />
     );
   });
+  const fetchDataUser = async () => {
+    await dispatch(getUserInfoThunk());
+  };
   useEffect(() => {
     if (access_token) {
-      dispatch(getUserInfoThunk());
+      fetchDataUser();
     }
-  }, [access_token, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [access_token]);
   return (
     <>
       {/* <Outlet /> */}
@@ -69,7 +73,7 @@ function App() {
         <Route element={<CheckPublicRoutes />}>{publicRoute}</Route>
         <Route element={<ProtectedRoutes />}>{userRoute}</Route>
       </Routes>
-      <ToastContainer autoClose={2000} />
+      <ToastContainer autoClose={1500} />
     </>
   );
 }

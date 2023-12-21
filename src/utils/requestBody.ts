@@ -16,8 +16,8 @@ export interface UserInfoRequesstBody {
   address: {
     provinceCode: string;
     districtCode: string;
-    wardCode: string;
   };
+  name: string;
   email: string;
 }
 

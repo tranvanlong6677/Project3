@@ -21,7 +21,6 @@ const CarItem = ({ data }: { data: IDataCarItem }) => {
     dispatch(setCarDataBooking(data));
   };
   useEffect(() => {
-    console.log(">>> check data car item", data);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listDistricts?.forEach((item: any) => {
       if (item?.code === data?.address?.districtCode) {

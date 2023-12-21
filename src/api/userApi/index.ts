@@ -29,19 +29,14 @@ export const userApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: any = await axiosClient.post(url, data);
     const carId = response.result.insertedId;
-    // formData.append("car_id", response.insertedId);
     const url2 = `medias/upload-image/${carId}`;
 
-    const response2 = await axios.post(
-      `http://localhost:8888/${url2}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return response2;
+    await axios.post(`http://localhost:8888/${url2}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
   },
   async getAllCars(): Promise<AxiosResponse> {
     const url = "/cars/all";
@@ -90,5 +85,16 @@ export const userApi = {
   }): Promise<AxiosResponse> {
     const url = "/cars/complete-order";
     return axiosClient.put(url, { booking_id, car_id });
+  },
+  async getListCarsUser({
+    page,
+    perPage,
+  }: {
+    page: string;
+    perPage: string;
+  }): Promise<AxiosResponse> {
+    console.log(page, perPage);
+    const url = `/cars/list-cars-user/page=${page}/per-page=${perPage}`;
+    return axiosClient.get(url);
   },
 };

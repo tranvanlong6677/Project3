@@ -54,20 +54,18 @@ const Index = () => {
       toast.error("Ngày bắt đầu và ngày kết thúc không hợp lệ");
       return;
     }
-
     const res = await dispatch(bookingCarThunk(data));
-    console.log("hihi bk", res);
+
     if (res.payload instanceof AxiosError) {
-      toast.error(res.payload.response.data.message);
+      toast.error(res?.payload?.response?.data?.message);
     } else {
-      toast.success(res.payload.message);
+      toast.success(res?.payload?.message);
       navigate(routesObj.home);
     }
 
     // await userApi.bookingCar(data);
   };
   useEffect(() => {
-    console.log("carDataBooking", carDataBooking);
     const currentDate = new Date();
     const nextDate = new Date();
     nextDate.setDate(nextDate.getDate() + 1);
@@ -174,7 +172,6 @@ const Index = () => {
                 // {...register("start_date", { required: true })}
                 onChange={(date: Date) => {
                   setDateBookCarStart(new Date(date));
-                  console.log(date);
                 }}
               />
               {/* <Form.Control
@@ -192,7 +189,6 @@ const Index = () => {
                 selected={dateBookCarEnd}
                 onChange={(date: Date) => {
                   setDateBookCarEnd(new Date(date));
-                  console.log(date);
                 }}
               />
               {/* <Form.Control

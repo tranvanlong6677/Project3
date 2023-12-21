@@ -7,6 +7,7 @@ import {
 } from "../../redux/services/userSlice";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
+import { typeCars } from "../../utils/typeCars";
 
 const Index = () => {
   const perPage = 5;
@@ -18,7 +19,7 @@ const Index = () => {
   const [dataModal, setDataModal] = useState<any>();
   const [show, setShow] = useState(false);
   const [pageCurrent, setPageCurrent] = useState<number>(1);
-
+  console.log("rentalListingsPaginate", rentalListingsPaginate);
   const handleClose = () => {
     setShow(false);
     setDataModal(null);
@@ -30,14 +31,12 @@ const Index = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickDone = async (data: any) => {
-    console.log(data);
     try {
       const result = await dispatch(
         completeOrderThunk({ booking_id: data._id, car_id: data.carId })
       );
       // await dispatch(getRentalListingsThunk());
       await fetchRentalListings(1, perPage);
-      console.log(result);
       toast.success(result.payload.message);
     } catch (error) {
       toast.error("Có lỗi xảy ra");
@@ -46,7 +45,6 @@ const Index = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePageClick = async (event: any) => {
-    console.log(event.selected + 1);
     setPageCurrent(event.selected + 1);
     await fetchRentalListings(event.selected + 1, perPage);
   };
@@ -65,7 +63,7 @@ const Index = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Danh sách đơn </h1>
+      <h1>Danh sách đơn cho thuê</h1>
       <div className="table-wrapper">
         <Table striped bordered hover>
           <thead>
@@ -73,7 +71,9 @@ const Index = () => {
               <th>#</th>
               <th>ID đơn</th>
               <th>Tên xe</th>
-              <th>Chủ xe</th>
+              <th>Biển số xe</th>
+              <th>Loại xe</th>
+              <th>Nguời thuê xe</th>
               <th>Chi tiết</th>
             </tr>
           </thead>
@@ -87,8 +87,11 @@ const Index = () => {
                   <tr>
                     <td>{(pageCurrent - 1) * perPage + (index + 1)}</td>
                     <td>{item._id}</td>
-                    <td>{item?.car_info[0]?.name}</td>
-                    <td>{item?.car_info[0]?.owner_name}</td>
+                    <td>{item?.car_info?.name}</td>
+                    <td>{item?.car_info?.license_plate}</td>
+                    <td>{typeCars[+item?.car_info?.type_car - 1]?.name}</td>
+
+                    <td>{item?.customer_info?.name}</td>
                     <td className="d-flex gap-3">
                       <Button
                         variant="primary"
@@ -146,16 +149,22 @@ const Index = () => {
             <thead>
               <tr>
                 <th>Địa chỉ</th>
-                <th>Tên chủ xe</th>
+                <th>Người thuê xe</th>
+                <th>Liên hệ</th>
+                <th>Email</th>
+
                 <th>Thời gian thuê</th>
-                <th>Số tiền</th>
+                <th>Số tiền(VNĐ)</th>
                 <th>Trạng thái</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{dataModal?.car_info[0]?.addressString}</td>
-                <td>{dataModal?.car_info[0]?.owner_name}</td>
+                <td>{dataModal?.car_info?.addressString}</td>
+                <td>{dataModal?.customer_info?.name}</td>
+                <td>{dataModal?.customer_info?.phone_number}</td>
+                <td>{dataModal?.customer_info?.email}</td>
+
                 <td>
                   {dataModal?.start_date}-{dataModal?.end_date}
                 </td>

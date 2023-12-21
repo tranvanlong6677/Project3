@@ -11,7 +11,11 @@ import {
   getWardByDistrictThunk,
 } from "../../redux/services/userSlice";
 import { toast } from "react-toastify";
+import { typeCars } from "../../utils/typeCars";
+import { routesObj } from "../../utils/routes";
+import { useNavigate } from "react-router-dom";
 const CreateNewCar = () => {
+  const navigate = useNavigate();
   const { province, district, ward } = useSelector(
     (state: any) => state.userReducer
   );
@@ -30,10 +34,10 @@ const CreateNewCar = () => {
       const res = await dispatch(
         createCarThunk({ ...data, owner_id: user._id })
       );
+      toast.success(res?.payload?.message);
 
-      console.log("check res hihi", res);
+      navigate(routesObj.home);
     } catch (error) {
-      console.log("haha", error);
       toast.error("Error");
     }
   };
@@ -51,6 +55,7 @@ const CreateNewCar = () => {
   };
   useEffect(() => {
     fetchDataDefault();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Container className="mt-3">
@@ -167,9 +172,10 @@ const CreateNewCar = () => {
             placeholder="Type car"
             {...register("type_car", { required: true })}
           >
-            <option value="1">1</option>
-            <option value="2">1</option>
-            <option value="3">1</option>
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            {typeCars.map((item: any) => {
+              return <option value={item.code}>{item.name}</option>;
+            })}
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicImage">
@@ -180,7 +186,6 @@ const CreateNewCar = () => {
             {...register("image", { required: true })}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(event: any) => {
-              console.log(event.target.files[0]);
               setSelectedImage(event.target.files[0]);
             }}
           />
@@ -197,28 +202,6 @@ const CreateNewCar = () => {
         <br />
         <br />
         <br />
-
-        {/* <Form.Group className="mb-3" controlId="formBasicImage">
-          <Form.Label>Ảnh xe</Form.Label>
-          <Form.Control
-            type="file"
-            // placeholder="Image"
-            {...register("image", { required: true })}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onChange={async (event: any) => {
-              console.log("event.target.files[0]", event.target.files);
-              // setSelectedImage(event.target.files[0]);
-              const formData = new FormData();
-              formData.append("image", event.target.files[0]);
-              console.log("formData", formData);
-              await axios.post("http://localhost:8888/cars/create", formData, {
-                headers: {
-                  "Content-type": "multipart/form-data",
-                },
-              });
-            }}
-          />
-        </Form.Group> */}
 
         <Button variant="primary" type="submit" className="mx-auto d-block">
           Tạo xe mới

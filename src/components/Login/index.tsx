@@ -28,7 +28,6 @@ const Login = () => {
         response.payload.result &&
         response.payload.message === "Login successful"
       ) {
-        // console.log("response", response);
         const { access_token, refresh_token } = response.payload.result;
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
