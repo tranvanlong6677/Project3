@@ -17,46 +17,76 @@ import { userApi } from "../../api/userApi";
 export const getAllProvinceThunk: any = createAsyncThunk(
   "address/provinceAll",
   async (): Promise<any> => {
-    const res = await provinceApi.getAllProvince();
-    return res;
+    try {
+      const res = await provinceApi.getAllProvince();
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 export const getDistrictByProvinceThunk: any = createAsyncThunk(
   "address/getDistrictByProvince",
   async (provinceCode: string): Promise<any> => {
-    const res = await districtApi.getDistrictByProvince(provinceCode);
-    return res;
+    try {
+      const res = await districtApi.getDistrictByProvince(provinceCode);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
 export const getWardByDistrictThunk: any = createAsyncThunk(
   "address/getWardByDistrict",
   async (districtCode: string): Promise<any> => {
-    const res = await wardApi.getWardByDistrict(districtCode);
-    return res;
+    try {
+      const res = await wardApi.getWardByDistrict(districtCode);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
 export const loginThunk: any = createAsyncThunk(
   "user/login",
   async (data: LoginRequestBody): Promise<any> => {
-    const res = await authApi.login(data);
-    return res;
+    try {
+      const res = await authApi.login(data);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
 export const getUserInfoThunk: any = createAsyncThunk(
   "user/get-info",
   async (): Promise<any> => {
-    const res = await userApi.getUserInfo();
-    return res;
+    try {
+      const res = await userApi.getUserInfo();
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 export const updateUserInfoThunk: any = createAsyncThunk(
   "user/update",
   async (dataUpdate: UserInfoRequesstBody): Promise<any> => {
-    const res = await userApi.updateUserInfo(dataUpdate);
-    return res;
+    try {
+      const res = await userApi.updateUserInfo(dataUpdate);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
@@ -76,8 +106,13 @@ export const bookingCarThunk: any = createAsyncThunk(
 export const getListBookingThunk: any = createAsyncThunk(
   "cars/list-booking",
   async (): Promise<any> => {
-    const res = await userApi.getListBooking();
-    return res;
+    try {
+      const res = await userApi.getListBooking();
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
@@ -90,16 +125,26 @@ export const getListBookingPaginateThunk: any = createAsyncThunk(
     page: number;
     perPage: number;
   }): Promise<any> => {
-    const res = await userApi.getListBookingPaginate(page, perPage);
-    return res;
+    try {
+      const res = await userApi.getListBookingPaginate(page, perPage);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
 export const getRentalListingsThunk: any = createAsyncThunk(
   "cars/rental-listings",
   async (): Promise<any> => {
-    const res = await userApi.getRentalListings();
-    return res;
+    try {
+      const res = await userApi.getRentalListings();
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
@@ -112,16 +157,26 @@ export const getRentalListingsPaginateThunk: any = createAsyncThunk(
     page: number;
     perPage: number;
   }): Promise<any> => {
-    const res = await userApi.getRentalListingsPaginate(page, perPage);
-    return res;
+    try {
+      const res = await userApi.getRentalListingsPaginate(page, perPage);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
 export const createCarThunk: any = createAsyncThunk(
   "cars/create",
   async (data: CreateANewCarRequestBody): Promise<any> => {
-    const res = await userApi.createNewCar(data);
-    return res;
+    try {
+      const res = await userApi.createNewCar(data);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
@@ -134,8 +189,13 @@ export const completeOrderThunk: any = createAsyncThunk(
     booking_id: string;
     car_id: string;
   }): Promise<any> => {
-    const res = await userApi.completeOrder({ booking_id, car_id });
-    return res;
+    try {
+      const res = await userApi.completeOrder({ booking_id, car_id });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 export const getListCarsThunk: any = createAsyncThunk(
@@ -147,8 +207,37 @@ export const getListCarsThunk: any = createAsyncThunk(
     page: string;
     perPage: string;
   }): Promise<any> => {
-    const res = await userApi.getListCars(page, perPage);
-    return res;
+    try {
+      const res = await userApi.getListCars(page, perPage);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+);
+export const getListCarSearchThunk: any = createAsyncThunk(
+  "cars/list-cars-search",
+  async ({
+    provinceCode,
+    page,
+    perPage,
+  }: {
+    provinceCode: string;
+    page: string;
+    perPage: string;
+  }) => {
+    try {
+      const res = await userApi.getListCarSearch({
+        provinceCode,
+        page,
+        perPage,
+      });
+      console.log(">>> check res", res);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -161,8 +250,13 @@ export const getListCarsUserThunk: any = createAsyncThunk(
     page: string;
     perPage: string;
   }): Promise<any> => {
-    const res = await userApi.getListCarsUser({ page, perPage });
-    return res;
+    try {
+      const res = await userApi.getListCarsUser({ page, perPage });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 );
 
@@ -344,6 +438,18 @@ export const userSlice = createSlice({
       console.log(action.payload);
       state.totalCountListCarsUser =
         action.payload[0]?.totalCount[0]?.totalCount;
+    },
+    [getListCarSearchThunk.pending]: (state, _action): void => {
+      state.loading = true;
+    },
+    [getListCarSearchThunk.reject]: (state, _action): void => {
+      state.loading = false;
+    },
+    [getListCarSearchThunk.fulfilled]: (state, action): void => {
+      state.loading = false;
+      console.log("action.payload la", action.payload);
+      state.listCars = action.payload[0]?.result;
+      state.totalListCars = action.payload[0]?.totalCount[0]?.totalCount;
     },
   },
 });

@@ -23,12 +23,15 @@ const Login = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const response: any = await dispatch(loginThunk(data));
+      console.log("res", response);
+
       // eslint-disable-next-line no-unsafe-optional-chaining
       if (
         response.payload.result &&
         response.payload.message === "Login successful"
       ) {
-        const { access_token, refresh_token } = response.payload.result;
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        const { access_token, refresh_token } = response?.payload?.result;
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("refresh_token", refresh_token);
         localStorage.setItem("user", JSON.stringify(response.payload.user));
@@ -42,7 +45,7 @@ const Login = () => {
       // link đến trang chính khi đăng nhập thành công
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.response?.data?.message);
+      toast.error("Sai email hoặc mật khẩu");
     }
   };
   useEffect(() => {
@@ -90,9 +93,6 @@ const Login = () => {
               Login
             </Button>
 
-            <a className="forgot text-center d-block mt-5">
-              Forgotten password
-            </a>
             <hr />
             <Button
               variant="outline-success"

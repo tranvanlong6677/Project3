@@ -130,9 +130,6 @@ const Register = () => {
               Sign up
             </Button>
 
-            <a className="forgot text-center d-block mt-5">
-              Forgotten password
-            </a>
             <hr />
             <Button
               variant="outline-success"

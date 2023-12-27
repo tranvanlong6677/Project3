@@ -153,13 +153,6 @@ const Index = () => {
               <span className="field">Số lượng chuyến : </span>
               <span className="value">{carDataBooking.quantity_of_trips}</span>
             </div>
-
-            <div className="element">
-              <span className="field">Trạng thái hiện tại :</span>
-              <span className="value">
-                {carDataBooking.status ? <> Xe đang bận</> : <> Có thể thuê</>}
-              </span>
-            </div>
           </div>
 
           <Form onSubmit={handleSubmit(onSubmit)}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Table } from "react-bootstrap";
+import { Button, Modal, Spinner, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   completeOrderThunk,
@@ -8,6 +8,7 @@ import {
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { typeCars } from "../../utils/typeCars";
+import { AxiosError } from "axios";
 
 const Index = () => {
   const perPage = 5;
@@ -31,16 +32,16 @@ const Index = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickDone = async (data: any) => {
-    try {
-      const result = await dispatch(
-        completeOrderThunk({ booking_id: data._id, car_id: data.carId })
-      );
-      // await dispatch(getRentalListingsThunk());
+    const result = await dispatch(
+      completeOrderThunk({ booking_id: data._id, car_id: data.carId })
+    );
+    console.log(result);
+
+    if (result.payload instanceof AxiosError) {
+      toast.error(result.payload?.response?.data?.message);
+    } else {
       await fetchRentalListings(1, perPage);
-      toast.success(result.payload.message);
-    } catch (error) {
-      toast.error("Có lỗi xảy ra");
-      console.log(error);
+      toast.success(result.payload?.message);
     }
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +78,7 @@ const Index = () => {
               <th>Chi tiết</th>
             </tr>
           </thead>
+
           <tbody>
             {rentalListingsPaginate &&
             rentalListingsPaginate?.length > 0 &&
@@ -116,7 +118,13 @@ const Index = () => {
                 );
               })
             ) : (
-              <></>
+              <>
+                <div className="loading-container mt-3">
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              </>
             )}
           </tbody>
         </Table>

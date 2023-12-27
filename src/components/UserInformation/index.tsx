@@ -26,11 +26,9 @@ const UserInformation = () => {
   const onSubmit = async (data: UserInfoRequesstBody) => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      console.log("data", data);
       const res: any = await dispatch(
         updateUserInfoThunk({ ...data, email: user?.email })
       );
-      console.log("res updatre", res);
       toast.success(res.payload?.message);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -56,7 +54,7 @@ const UserInformation = () => {
   // }, []);
   return (
     <Container>
-      <Form className="search mt-3 w-100" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="mt-3 w-100" onSubmit={handleSubmit(onSubmit)}>
         <h2>Thông tin người dùng</h2>
         <div className="d-flex w-100 flex-wrap gap-2 gap-md-0">
           <div className="col-12 col-md-6 my-3">

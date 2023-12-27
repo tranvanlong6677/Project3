@@ -32,7 +32,7 @@ export interface CreateANewCarRequestBody {
   price_per_day: number;
   deposit: number;
   type_car: number;
-  image: FileList;
+  image: string;
   status: boolean;
   quantity_of_trips: number;
   address: {

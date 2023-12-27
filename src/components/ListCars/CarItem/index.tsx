@@ -8,12 +8,12 @@ import { routesObj } from "../../../utils/routes";
 import { useNavigate } from "react-router-dom";
 import { setCarDataBooking } from "../../../redux/services/userSlice";
 import { useDispatch } from "react-redux";
+// import ListCars from "..";
 const CarItem = ({ data }: { data: IDataCarItem }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [addressString, setAddressString] = useState<string>();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleClickBtnBooking = () => {
@@ -23,12 +23,15 @@ const CarItem = ({ data }: { data: IDataCarItem }) => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listDistricts?.forEach((item: any) => {
-      if (item?.code === data?.address?.districtCode) {
+      if (
+        item?.code === data?.address?.districtCode &&
+        item?.parent_code === data?.address?.provinceCode
+      ) {
         setAddressString(item?.path);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
   return (
     <>
       <div
@@ -47,7 +50,7 @@ const CarItem = ({ data }: { data: IDataCarItem }) => {
           >
             <Card.Img
               variant="top"
-              src={`http://localhost:8888/static/image/${data._id}.jpg`}
+              src={data?.image}
               className="mh-50"
               style={{
                 height: "100%",
@@ -149,13 +152,6 @@ const CarItem = ({ data }: { data: IDataCarItem }) => {
             <div className="element">
               <span className="field">Số lượng chuyến : </span>
               <span className="value">{data.quantity_of_trips}</span>
-            </div>
-
-            <div className="element">
-              <span className="field">Trạng thái hiện tại :</span>
-              <span className="value">
-                {data.status ? <> Xe đang bận</> : <> Có thể thuê</>}
-              </span>
             </div>
           </div>
         </Modal.Body>

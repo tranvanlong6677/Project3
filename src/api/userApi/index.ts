@@ -46,6 +46,19 @@ export const userApi = {
     const url = `/cars/page=${page}/per-page=${perPage}`;
     return axiosClient.get(url);
   },
+  async getListCarSearch({
+    provinceCode,
+    page,
+    perPage,
+  }: {
+    provinceCode: string;
+    page: string;
+    perPage: string;
+  }): Promise<AxiosResponse> {
+    console.log("adu", provinceCode);
+    const url = `/cars/search/province-code=${provinceCode}/page=${page}/per-page=${perPage}`;
+    return axiosClient.get(url);
+  },
   async getAllTypeCars(): Promise<AxiosResponse> {
     const url = "/cars/all-type";
     return axiosClient.get(url);
