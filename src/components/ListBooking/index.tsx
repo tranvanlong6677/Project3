@@ -47,7 +47,7 @@ const ListBooking = () => {
     <div className="container mt-5">
       <h1>Danh sách đơn đi thuê</h1>
       <div className="table-wrapper">
-        <Table striped bordered hover>
+        <Table striped bordered hover variant="light">
           <thead>
             <tr>
               <th>#</th>
@@ -61,12 +61,12 @@ const ListBooking = () => {
           </thead>
           <tbody>
             {listBookingPaginate &&
-            listBookingPaginate.length > 0 &&
+            listBookingPaginate?.length > 0 &&
             loading === false ? (
               // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
               listBookingPaginate?.map((item: any, index: number) => {
                 return (
-                  <tr>
+                  <tr key={`item-${index}`}>
                     <td>{(pageCurrent - 1) * 5 + (index + 1)}</td>
                     <td>{item._id}</td>
                     <td>{item?.car_info?.name}</td>
@@ -92,32 +92,35 @@ const ListBooking = () => {
                   </tr>
                 );
               })
+            ) : !loading ? (
+              <tr>Không có kết quả</tr>
             ) : (
-              <></>
+              <tr>Loading...</tr>
             )}
           </tbody>
         </Table>
       </div>
-
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={Math.ceil(pageCountListBooking / 5)}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
-        containerClassName={"pagination"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        activeClassName={"active"}
-      />
+      <div className="pagination-container">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={Math.ceil(pageCountListBooking / 5)}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
+      </div>
 
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>

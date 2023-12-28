@@ -77,6 +77,10 @@ const Header = () => {
                 Danh sách xe hiện có
               </Link>
               <NavDropdown.Divider />
+              <Link to={routesObj.monthlyStatistics} className="dropdown-item">
+                Thống kê hàng tháng
+              </Link>
+              <NavDropdown.Divider />
               <DropdownItem
                 className="dropdown-item"
                 onClick={() => handleLogout()}

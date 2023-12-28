@@ -11,6 +11,7 @@ import CreateNewCar from "../components/CreateNewCar";
 import BookingCar from "../components/BookingCar";
 import RentalListings from "../components/RentalListings";
 import ListCarsUser from "../components/ListCarsUser";
+import MonthlyStatistics from "../components/MonthlyStatistics";
 
 export const userRoutes: any = [
   {
@@ -47,6 +48,11 @@ export const userRoutes: any = [
   {
     path: routesObj.listCarsUser,
     component: ListCarsUser,
+    layout: DefaultLayout,
+  },
+  {
+    path: routesObj.monthlyStatistics,
+    component: MonthlyStatistics,
     layout: DefaultLayout,
   },
 ];

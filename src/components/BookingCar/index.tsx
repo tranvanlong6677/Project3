@@ -18,6 +18,7 @@ const Index = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.userReducer
   );
+  console.log(">>> check databooking", carDataBooking);
   const {
     // register,
     handleSubmit,
@@ -73,12 +74,12 @@ const Index = () => {
     setDateBookCarEnd(nextDate);
   }, [carDataBooking]);
   return (
-    <div className="container mt-5">
+    <div className="container my-5">
       <div className="d-flex flex-column align-items-center">
         <h1>Chi tiết đặt xe</h1>
         <div className="img-car my-3">
           <img
-            src={`http://localhost:8888/static/image/${carDataBooking._id}.jpg`}
+            src={carDataBooking?.image}
             style={{
               height: "400px",
               objectFit: "cover",

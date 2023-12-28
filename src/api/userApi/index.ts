@@ -106,8 +106,13 @@ export const userApi = {
     page: string;
     perPage: string;
   }): Promise<AxiosResponse> {
-    console.log(page, perPage);
     const url = `/cars/list-cars-user/page=${page}/per-page=${perPage}`;
     return axiosClient.get(url);
+  },
+  async cancelOrder(bookingId: string): Promise<AxiosResponse> {
+    console.log("bookingId api", bookingId);
+
+    const url = `/cars/cancel-order/booking-id=${bookingId}`;
+    return axiosClient.delete(url);
   },
 };

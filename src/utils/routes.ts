@@ -9,4 +9,5 @@ export const routesObj = {
   bookingCar: "/booking",
   rentalListings: "/rental-listing",
   listCarsUser: "/list-cars",
+  monthlyStatistics: "/monthly-statistics",
 };

@@ -15,7 +15,7 @@ import { listProvinces } from "../../utils/provinces";
 const ListCars = () => {
   const perPage = 4;
   const dispatch = useDispatch();
-  const { listCars, totalListCars } = useSelector(
+  const { listCars, totalListCars, loading } = useSelector(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.userReducer
   );
@@ -94,33 +94,40 @@ const ListCars = () => {
       </Form>
       <div className="list-cars-wrapper d-flex mw-100 flex-wrap mt-5">
         {listCars && listCars.length ? (
+          !loading &&
           listCars?.map((item: IDataCarItem, index: number) => {
             return <CarItem data={item} key={`index${index}`} />;
           })
+        ) : !loading ? (
+          <div style={{ textAlign: "center", width: "100%" }} className="mb-3">
+            Không có kết quả
+          </div>
         ) : (
-          <></>
+          <>Loading...</>
         )}
       </div>
-      <ReactPaginate
-        breakLabel="..."
-        forcePage={currentPage}
-        nextLabel="next >"
-        onPageChange={isSearchCar ? handlePageClickSearch : handlePageClick}
-        pageRangeDisplayed={4}
-        pageCount={Math.ceil(+totalListCars / perPage)}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
-        containerClassName={"pagination"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        activeClassName={"active"}
-      />
+      <div className="pagination-container">
+        <ReactPaginate
+          breakLabel="..."
+          forcePage={currentPage}
+          nextLabel="next >"
+          onPageChange={isSearchCar ? handlePageClickSearch : handlePageClick}
+          pageRangeDisplayed={4}
+          pageCount={Math.ceil(+totalListCars / perPage)}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
+      </div>
     </>
   );
 };

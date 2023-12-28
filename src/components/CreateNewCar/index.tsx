@@ -60,7 +60,7 @@ const CreateNewCar = () => {
   return (
     <Container className="mt-3">
       <Form
-        className=""
+        className="form-create-car pb-3"
         onSubmit={handleSubmit(onSubmit)}
         encType="multiple/form-data"
       >
@@ -199,8 +199,6 @@ const CreateNewCar = () => {
             />
           </div>
         )}
-        <br />
-        <br />
         <br />
 
         <Button variant="primary" type="submit" className="mx-auto d-block">

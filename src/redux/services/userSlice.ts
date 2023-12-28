@@ -260,6 +260,20 @@ export const getListCarsUserThunk: any = createAsyncThunk(
   }
 );
 
+export const cancelOrderThunk: any = createAsyncThunk(
+  "cars/list-cars-user",
+  async ({ bookingId }: { bookingId: string }) => {
+    try {
+      console.log("bookingId", bookingId);
+      const res = await userApi.cancelOrder(bookingId);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState: {

@@ -6,7 +6,7 @@ import { getListCarsUserThunk } from "../../redux/services/userSlice";
 
 const Index = () => {
   const perPage = 5;
-  const { listCarsUser, totalCountListCarsUser } = useSelector(
+  const { listCarsUser, totalCountListCarsUser, loading } = useSelector(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.userReducer
   );
@@ -39,7 +39,7 @@ const Index = () => {
             </tr>
           </thead>
           <tbody>
-            {listCarsUser && listCarsUser?.length > 0 ? (
+            {!loading && listCarsUser && listCarsUser?.length > 0 ? (
               // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
               listCarsUser.map((item: any, index: number) => {
                 return (
@@ -53,32 +53,36 @@ const Index = () => {
                   </tr>
                 );
               })
+            ) : !loading ? (
+              <>Không có kết quả</>
             ) : (
-              <></>
+              <>Loading...</>
             )}
           </tbody>
         </Table>
       </div>
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageChange}
-        pageRangeDisplayed={5}
-        pageCount={Math.ceil(totalCountListCarsUser / 5)}
-        // pageCount={10}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
-        containerClassName={"pagination"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        activeClassName={"active"}
-      />
+      <div className="pagination-container">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageChange}
+          pageRangeDisplayed={5}
+          pageCount={Math.ceil(totalCountListCarsUser / 5)}
+          // pageCount={10}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
+      </div>
     </div>
   );
 };
