@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getListBookingPaginateThunk } from "../../redux/services/userSlice";
+import {
+  cancelOrderThunk,
+  getListBookingPaginateThunk,
+  // getRentalListingsPaginateThunk,
+} from "../../redux/services/userSlice";
 import ReactPaginate from "react-paginate";
 import { typeCars } from "../../utils/typeCars";
+import { differenceInDays, isAfter } from "date-fns";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { formatDate } from "../../utils/function";
 
 const ListBooking = () => {
+  const currentDate = new Date();
   const dispatch = useDispatch();
   const perPage = 5;
   const { listBookingPaginate, pageCountListBooking, loading } = useSelector(
@@ -23,6 +32,7 @@ const ListBooking = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleShow = (data: any) => {
+    console.log(data);
     setShow(true);
     setDataModal(data);
   };
@@ -38,13 +48,25 @@ const ListBooking = () => {
       getListBookingPaginateThunk({ page: +page, perPage: perPage })
     );
   };
-  console.log("listBookingPaginate", listBookingPaginate);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleClickCancel = async (item: any) => {
+    const res = await dispatch(cancelOrderThunk({ bookingId: item?._id }));
+    if (res.payload instanceof AxiosError) {
+      toast.error("Hủy lịch thất bại");
+    } else {
+      toast.success(res.payload?.message);
+      setPageCurrent(1);
+      await dispatch(
+        getListBookingPaginateThunk({ page: 1, perPage: perPage })
+      );
+    }
+  };
   useEffect(() => {
     fetchListBooking(1, perPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 list-bookings-container">
       <h1>Danh sách đơn đi thuê</h1>
       <div className="table-wrapper">
         <Table striped bordered hover variant="light">
@@ -88,6 +110,22 @@ const ListBooking = () => {
                     ) : (
                       <></>
                     )} */}
+                      {isAfter(new Date(item?.start_date), currentDate) &&
+                      differenceInDays(
+                        new Date(item?.start_date),
+                        currentDate
+                      ) >= 2 ? (
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            handleClickCancel(item);
+                          }}
+                        >
+                          Hủy lịch
+                        </Button>
+                      ) : (
+                        <></>
+                      )}
                     </td>
                   </tr>
                 );
@@ -102,6 +140,7 @@ const ListBooking = () => {
       </div>
       <div className="pagination-container">
         <ReactPaginate
+          forcePage={pageCurrent - 1}
           breakLabel="..."
           nextLabel="next >"
           onPageChange={handlePageClick}
@@ -133,9 +172,9 @@ const ListBooking = () => {
                 <th>Địa chỉ</th>
                 <th>Tên chủ xe</th>
                 <th>Liên hệ</th>
-                <th>Email</th>
                 <th>Thời gian thuê</th>
-                <th>Số tiền (VNĐ)</th>
+                <th>Số tiền cọc (VNĐ)</th>
+                <th>Số tiền thuê (VNĐ)</th>
                 <th>Trạng thái</th>
               </tr>
             </thead>
@@ -144,12 +183,15 @@ const ListBooking = () => {
                 <td>{dataModal?.car_info?.addressString}</td>
                 <td>{dataModal?.car_info?.owner_name}</td>
                 <td>{dataModal?.owner_info?.phone_number}</td>
-                <td>{dataModal?.owner_info?.email}</td>
-
                 <td>
-                  {dataModal?.start_date}-{dataModal?.end_date}
+                  {dataModal?.start_date
+                    ? formatDate(dataModal?.start_date)
+                    : ""}
+                  -{dataModal?.end_date ? formatDate(dataModal?.end_date) : ""}
                 </td>
-                <td>{dataModal?.price}</td>
+                <td>{(+dataModal?.car_info?.deposit).toLocaleString()}</td>
+
+                <td>{(+dataModal?.price).toLocaleString()}</td>
                 <td>{dataModal?.isDone ? "Đã hoàn thành" : "Đang diễn ra"}</td>
               </tr>
             </tbody>

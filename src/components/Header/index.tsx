@@ -44,7 +44,7 @@ const Header = () => {
           className="navbar-brand d-flex align-items-center"
         >
           <IoCarSportSharp />
-          <span className="mx-2">PROJECT 3</span>
+          <span className="mx-2">PROJECT</span>
         </Link>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="w-100 d-flex justify-content-between">
@@ -76,10 +76,10 @@ const Header = () => {
               <Link to={routesObj.listCarsUser} className="dropdown-item">
                 Danh sách xe hiện có
               </Link>
-              <NavDropdown.Divider />
+              {/* <NavDropdown.Divider />
               <Link to={routesObj.monthlyStatistics} className="dropdown-item">
-                Thống kê hàng tháng
-              </Link>
+                Thống kê
+              </Link> */}
               <NavDropdown.Divider />
               <DropdownItem
                 className="dropdown-item"

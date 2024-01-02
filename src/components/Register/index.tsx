@@ -85,6 +85,12 @@ const Register = () => {
               onChange={(date: Date) => {
                 setDateOfBirth(date);
               }}
+              showYearDropdown
+              scrollableYearDropdown
+              dateFormat="dd/MM/yyyy"
+              yearDropdownItemNumber={100} // Số lượng năm hiển thị trong dropdown
+              minDate={new Date(1900, 0, 1)} // Năm tối thiểu có thể chọn
+              maxDate={new Date()}
             />
           </Col>
         </Row>
@@ -117,7 +123,7 @@ const Register = () => {
             <Form.Group className="" controlId="formBasicPhoneNumber">
               <Form.Label>Phone number</Form.Label>
               <Form.Control
-                type="password"
+                type="text"
                 placeholder="Phone number"
                 {...register("phone_number", { required: true })}
               />

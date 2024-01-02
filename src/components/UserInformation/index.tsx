@@ -54,7 +54,10 @@ const UserInformation = () => {
   // }, []);
   return (
     <Container>
-      <Form className="mt-3 w-100" onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        className="mt-3 w-100 form-user-info"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <h2>Thông tin người dùng</h2>
         <div className="d-flex w-100 flex-wrap gap-2 gap-md-0">
           <div className="col-12 col-md-6 my-3">
@@ -77,7 +80,7 @@ const UserInformation = () => {
                 className=""
                 type="text"
                 placeholder="Số điện thoại"
-                value={user.phone_number}
+                value={user?.phone_number}
                 disabled={true}
                 // {...register("phone_number", { required: true })}
               />

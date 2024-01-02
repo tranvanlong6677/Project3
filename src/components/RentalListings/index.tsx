@@ -11,6 +11,7 @@ import ReactPaginate from "react-paginate";
 import { typeCars } from "../../utils/typeCars";
 import { AxiosError } from "axios";
 import { differenceInDays, isAfter } from "date-fns";
+import { formatDate } from "../../utils/function";
 
 const Index = () => {
   const perPage = 5;
@@ -23,13 +24,13 @@ const Index = () => {
   const [dataModal, setDataModal] = useState<any>();
   const [show, setShow] = useState(false);
   const [pageCurrent, setPageCurrent] = useState<number>(1);
-  console.log("rentalListingsPaginate", rentalListingsPaginate);
   const handleClose = () => {
     setShow(false);
     setDataModal(null);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleShow = (data: any) => {
+    console.log(data);
     setShow(true);
     setDataModal(data);
   };
@@ -192,10 +193,9 @@ const Index = () => {
                 <th>Địa chỉ</th>
                 <th>Người thuê xe</th>
                 <th>Liên hệ</th>
-                <th>Email</th>
-
                 <th>Thời gian thuê</th>
-                <th>Số tiền(VNĐ)</th>
+                <th>Số tiền cọc(VNĐ)</th>
+                <th>Số tiền thuê(VNĐ)</th>
                 <th>Trạng thái</th>
               </tr>
             </thead>
@@ -204,12 +204,19 @@ const Index = () => {
                 <td>{dataModal?.car_info?.addressString}</td>
                 <td>{dataModal?.customer_info?.name}</td>
                 <td>{dataModal?.customer_info?.phone_number}</td>
-                <td>{dataModal?.customer_info?.email}</td>
+                <td>
+                  {dataModal?.start_date
+                    ? formatDate(dataModal?.start_date)
+                    : ""}
+                  -{dataModal?.end_date ? formatDate(dataModal?.end_date) : ""}
+                </td>
+                <td>{(+dataModal?.car_info?.deposit).toLocaleString()}</td>
 
                 <td>
-                  {dataModal?.start_date}-{dataModal?.end_date}
+                  {(
+                    +dataModal?.price - +dataModal?.car_info?.deposit
+                  ).toLocaleString()}
                 </td>
-                <td>{dataModal?.price}</td>
                 <td>{dataModal?.isDone ? "Đã hoàn thành" : "Đang diễn ra"}</td>
               </tr>
             </tbody>

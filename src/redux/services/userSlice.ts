@@ -43,6 +43,7 @@ export const getWardByDistrictThunk: any = createAsyncThunk(
   "address/getWardByDistrict",
   async (districtCode: string): Promise<any> => {
     try {
+      console.log("tu", districtCode);
       const res = await wardApi.getWardByDistrict(districtCode);
       return res;
     } catch (error) {

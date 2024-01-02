@@ -23,11 +23,11 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 list-cars-user">
       <h1>Danh sách xe sở hữu</h1>
 
       <div className="table-wrapper">
-        <Table striped bordered hover>
+        <Table striped bordered hover variant="light">
           <thead>
             <tr>
               <th>#</th>

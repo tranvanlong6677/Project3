@@ -39,10 +39,8 @@ const ListCars = () => {
         perPage,
       })
     );
-    console.log(event.selected + 1);
   };
   const onSubmit = async (data: { province_code: string }) => {
-    console.log("check data", data.province_code);
     setIsSearchCar(true);
     setCurrentPage(0);
     await dispatch(
@@ -61,9 +59,8 @@ const ListCars = () => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="col-12 col-md-6 my-3">
-          <Form.Group className="mx-auto w-90">
-            <Form.Label>Tỉnh, thành phố:</Form.Label>
+        <div className="col-12 col-md-6 my-3 w-100">
+          <Form.Group className="mx-auto w-50">
             <Form.Select
               defaultValue={"01"}
               {...register("province_code", { required: true })}
@@ -84,9 +81,9 @@ const ListCars = () => {
             </Form.Select>
           </Form.Group>
         </div>
-        <div className="col-12 col-md-6 my-3">
-          <div className="w-90 mx-auto">
-            <Button variant="primary" type="submit" className="">
+        <div className="col-12 col-md-6 my-3 w-100">
+          <div className="w-25 mx-auto">
+            <Button variant="primary" type="submit" className="w-100">
               Tìm kiếm
             </Button>
           </div>

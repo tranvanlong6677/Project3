@@ -31,7 +31,7 @@
 }
 
 .table-wrapper {
-    min-height: 350px;
+    min-height: 500px;
 }
 .loading-container {
     display: block;
@@ -45,6 +45,18 @@
     display: flex;
     justify-content: center;
 }
-.form-create-car {
+.form-create-car,
+.form-user-info,
+.list-cars-user,
+.list-bookings-container,
+.home-wrapper,
+.booking-car-container {
     color: #fff;
+}
+.list-cars-wrapper {
+    min-height: 400px;
+}
+
+.upload-input {
+    min-height: 250px;
 }

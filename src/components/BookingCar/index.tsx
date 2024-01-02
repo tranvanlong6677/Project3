@@ -8,7 +8,7 @@ import { bookingCarThunk } from "../../redux/services/userSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { routesObj } from "../../utils/routes";
-import { differenceInDays } from "date-fns";
+import { addDays, differenceInDays, isSameDay } from "date-fns";
 import { AxiosError } from "axios";
 
 const Index = () => {
@@ -30,18 +30,21 @@ const Index = () => {
     const data = {
       start_date: dateBookCarStart?.toDateString() || "",
       end_date: dateBookCarEnd?.toDateString() || "",
-      ownerId: carDataBooking.owner_id,
-      carId: carDataBooking._id,
+      ownerId: carDataBooking?.owner_id,
+      carId: carDataBooking?._id,
     };
     const quantityOfDate = differenceInDays(
-      new Date(data.end_date),
-      new Date(data.start_date)
+      new Date(data?.end_date),
+      new Date(data?.start_date)
     );
-    if (differenceInDays(new Date(data.start_date), new Date()) < 0) {
+    if (
+      differenceInDays(new Date(data?.start_date), new Date()) < 0 ||
+      isSameDay(new Date(), new Date(data?.start_date))
+    ) {
       toast.error("Ngày bắt đầu không hợp lệ");
       return;
     }
-    if (differenceInDays(new Date(data.start_date), new Date()) > 7) {
+    if (differenceInDays(new Date(data?.start_date), new Date()) > 7) {
       toast.error("Bạn chỉ được đặt trước ngày khởi hành tối đa là 7 ngày");
       return;
     }
@@ -68,15 +71,16 @@ const Index = () => {
   };
   useEffect(() => {
     const currentDate = new Date();
-    const nextDate = new Date();
-    nextDate.setDate(nextDate.getDate() + 1);
-    setDateBookCarStart(currentDate);
-    setDateBookCarEnd(nextDate);
+    const tomorrow = addDays(currentDate, 1);
+    const theDayAfterTomorrow = addDays(currentDate, 2);
+    // nextDate.setDate(nextDate.getDate() + 1);
+    setDateBookCarStart(tomorrow);
+    setDateBookCarEnd(theDayAfterTomorrow);
   }, [carDataBooking]);
   return (
-    <div className="container my-5">
+    <div className="container booking-car-container py-3">
       <div className="d-flex flex-column align-items-center">
-        <h1>Chi tiết đặt xe</h1>
+        <h1 className="">Chi tiết đặt xe</h1>
         <div className="img-car my-3">
           <img
             src={carDataBooking?.image}
