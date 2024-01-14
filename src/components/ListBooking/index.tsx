@@ -65,6 +65,13 @@ const ListBooking = () => {
     fetchListBooking(1, perPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log("data modal", dataModal?.end_date);
+  console.log("current", currentDate);
+  console.log(
+    "isAfter(currentDate, dataModal?.end_date)",
+    isAfter(currentDate, new Date(dataModal?.end_date))
+  );
+
   return (
     <div className="container mt-5 list-bookings-container">
       <h1>Danh sách đơn đi thuê</h1>
@@ -192,7 +199,15 @@ const ListBooking = () => {
                 <td>{(+dataModal?.car_info?.deposit).toLocaleString()}</td>
 
                 <td>{(+dataModal?.price).toLocaleString()}</td>
-                <td>{dataModal?.isDone ? "Đã hoàn thành" : "Đang diễn ra"}</td>
+                <td>
+                  {dataModal?.isDone
+                    ? "Đã hoàn thành"
+                    : dataModal?.end_date
+                    ? isAfter(currentDate, new Date(dataModal?.end_date))
+                      ? "Quá hạn"
+                      : "Đang diễn ra"
+                    : ""}
+                </td>
               </tr>
             </tbody>
           </Table>

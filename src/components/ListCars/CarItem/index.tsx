@@ -7,11 +7,17 @@ import { useEffect, useState } from "react";
 import { routesObj } from "../../../utils/routes";
 import { useNavigate } from "react-router-dom";
 import { setCarDataBooking } from "../../../redux/services/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import ListCars from "..";
 const CarItem = ({ data }: { data: IDataCarItem }) => {
+  console.log("check", data);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (state: any) => state.userReducer
+  );
+  console.log("user", user);
   const [addressString, setAddressString] = useState<string>();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -61,7 +67,15 @@ const CarItem = ({ data }: { data: IDataCarItem }) => {
             />
           </div>
           <Card.Body>
-            <Card.Title>{data.name}</Card.Title>
+            <Card.Title>
+              {data.name}
+              {"   "}
+              {data?.owner_id === user?._id ? (
+                <b style={{ color: "red", fontSize: "16px" }}>(Xe của bạn)</b>
+              ) : (
+                <></>
+              )}
+            </Card.Title>
             <Card.Text>
               <ImLocation2 />
               <span className="location">{addressString}</span>

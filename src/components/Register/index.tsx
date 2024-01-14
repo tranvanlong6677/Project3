@@ -34,7 +34,7 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container container h-100vh p-5">
+    <div className="register-container container  p-5">
       <Form className="w-100 mx-auto mb-2" onSubmit={handleSubmit(onSubmit)}>
         <Row className="w-100">
           <Col sm={12} md={10} lg={7} className="mx-auto">

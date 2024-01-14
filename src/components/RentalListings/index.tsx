@@ -30,7 +30,6 @@ const Index = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleShow = (data: any) => {
-    console.log(data);
     setShow(true);
     setDataModal(data);
   };
@@ -82,7 +81,7 @@ const Index = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Danh sách đơn cho thuê</h1>
+      <h1 style={{ color: "#fff" }}>Danh sách đơn cho thuê</h1>
       <div className="table-wrapper">
         <Table striped bordered hover variant="light">
           <thead>
@@ -217,7 +216,15 @@ const Index = () => {
                     +dataModal?.price - +dataModal?.car_info?.deposit
                   ).toLocaleString()}
                 </td>
-                <td>{dataModal?.isDone ? "Đã hoàn thành" : "Đang diễn ra"}</td>
+                <td>
+                  {dataModal?.isDone
+                    ? "Đã hoàn thành"
+                    : dataModal?.end_date
+                    ? isAfter(currentDate, new Date(dataModal?.end_date))
+                      ? "Quá hạn"
+                      : "Đang diễn ra"
+                    : ""}
+                </td>
               </tr>
             </tbody>
           </Table>
